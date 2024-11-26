@@ -1,0 +1,37 @@
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\arm-none-eabi\include\c++\12.3.1\arm-none-eabi\thumb\v7e-m+fp\hard\bits\gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	1
+../Core/Src/Events.cpp:12:6:virtual void Event::handleEvent()	1
+../Core/Src/Events.cpp:14:1:Event::~Event()	1
+../Core/Src/Events.cpp:14:1:virtual Event::~Event()	1
+../Core/Src/Events.cpp:16:6:virtual void StartEvent::handleEvent()	1
+../Core/Src/Events.cpp:21:1:StartEvent::~StartEvent()	1
+../Core/Src/Events.cpp:21:1:virtual StartEvent::~StartEvent()	1
+../Core/Src/Events.cpp:23:6:virtual void ShowResultsEvent::handleEvent()	1
+../Core/Src/Events.cpp:27:1:ShowResultsEvent::~ShowResultsEvent()	1
+../Core/Src/Events.cpp:27:1:virtual ShowResultsEvent::~ShowResultsEvent()	1
+../Core/Src/Events.cpp:29:6:virtual void CancelEvent::handleEvent()	1
+../Core/Src/Events.cpp:30:1:CancelEvent::~CancelEvent()	1
+../Core/Src/Events.cpp:30:1:virtual CancelEvent::~CancelEvent()	1
+../Core/Src/Events.h:13:7:constexpr Event::Event()	1
+../Core/Src/Events.cpp:32:1:DisplayEvent::DisplayEvent(LCD_HandleTypeDef&, std::string)	1
+../Core/Src/Events.cpp:34:6:virtual void DisplayEvent::handleEvent()	5
+../Core/Src/Events.cpp:63:1:DisplayEvent::~DisplayEvent()	1
+../Core/Src/Events.cpp:63:1:virtual DisplayEvent::~DisplayEvent()	1
+../Core/Src/Events.cpp:65:1:TestEventLED::TestEventLED(TIM_HandleTypeDef&, LED)	1
+../Core/Src/Events.cpp:67:6:virtual void TestEventLED::handleEvent()	4
+../Core/Src/Events.cpp:82:1:TestEventLED::~TestEventLED()	1
+../Core/Src/Events.cpp:82:1:virtual TestEventLED::~TestEventLED()	1
+../Core/Src/Events.cpp:84:6:virtual void TestEventGreenBlink::handleEvent()	1
+../Core/Src/Events.cpp:91:1:TestEventGreenBlink::~TestEventGreenBlink()	1
+../Core/Src/Events.cpp:91:1:virtual TestEventGreenBlink::~TestEventGreenBlink()	1
+../Core/Src/Events.cpp:94:6:virtual void StartMeasureEvent::handleEvent()	1
+../Core/Src/Events.cpp:97:1:StartMeasureEvent::~StartMeasureEvent()	1
+../Core/Src/Events.cpp:97:1:virtual StartMeasureEvent::~StartMeasureEvent()	1
+../Core/Src/Events.cpp:99:6:virtual void CalculationEvent::handleEvent()	1
+../Core/Src/Events.cpp:100:1:CalculationEvent::~CalculationEvent()	1
+../Core/Src/Events.cpp:100:1:virtual CalculationEvent::~CalculationEvent()	1
+../Core/Src/Events.cpp:102:6:virtual void FinalCalculationEvent::handleEvent()	1
+../Core/Src/Events.cpp:103:1:FinalCalculationEvent::~FinalCalculationEvent()	1
+../Core/Src/Events.cpp:103:1:virtual FinalCalculationEvent::~FinalCalculationEvent()	1
+../Core/Src/Events.cpp:103:50:void __static_initialization_and_destruction_0(int, int)	5
+../Core/Src/Events.cpp:103:50:cpp)	1
+../Core/Src/Events.cpp:103:50:cpp)	1
