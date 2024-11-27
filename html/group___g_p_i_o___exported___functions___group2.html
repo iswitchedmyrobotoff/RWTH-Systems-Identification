@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.16"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>systems_identification: GPIO_Exported_Functions_Group2</title>
+<title>Projektdokumentation_V1.0_MB: GPIO_Exported_Functions_Group2</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -29,8 +29,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">systems_identification
-   &#160;<span id="projectnumber">0.2</span>
+   <div id="projectname">Projektdokumentation_V1.0_MB
    </div>
   </td>
  </tr>
@@ -106,6 +105,7 @@ Functions</h2></td></tr>
 <tr class="memitem:gaa5de1ec4ebdd47e3e2b786224adaa9d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___g_p_i_o___exported___functions___group2.html#gaa5de1ec4ebdd47e3e2b786224adaa9d0">HAL_GPIO_EXTI_IRQHandler</a> (uint16_t GPIO_Pin)</td></tr>
 <tr class="separator:gaa5de1ec4ebdd47e3e2b786224adaa9d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0cd91fd3a9608559c2a87a8ba6cba55f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___g_p_i_o___exported___functions___group2.html#ga0cd91fd3a9608559c2a87a8ba6cba55f">HAL_GPIO_EXTI_Callback</a> (uint16_t GPIO_Pin)</td></tr>
+<tr class="memdesc:ga0cd91fd3a9608559c2a87a8ba6cba55f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="group___g_p_i_o___exported___functions___group2.html#ga0cd91fd3a9608559c2a87a8ba6cba55f" title="HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) ist ein interrupt, welcher den Operierenden Betrieb enthält...">HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)</a> ist ein interrupt, welcher den Operierenden Betrieb enthält.  <a href="group___g_p_i_o___exported___functions___group2.html#ga0cd91fd3a9608559c2a87a8ba6cba55f">More...</a><br /></td></tr>
 <tr class="separator:ga0cd91fd3a9608559c2a87a8ba6cba55f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -125,6 +125,20 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p><a class="el" href="group___g_p_i_o___exported___functions___group2.html#ga0cd91fd3a9608559c2a87a8ba6cba55f" title="HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) ist ein interrupt, welcher den Operierenden Betrieb enthält...">HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)</a> ist ein interrupt, welcher den Operierenden Betrieb enthält. </p>
+<p>Somit wird alles was beim operieren ausgelößt werden soll, hier aufgerufen</p>
+<p>Ebenfalls gibt es ein printf mit einem float um die convertierung von c zu cpp zu überprüfen.</p>
+<p>Nachdem das Operieren beendet wurde, werden die Resultate angezeigt und danach wird die Queue berreinigt.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lastButtonPressTime</td><td>enthält die Zeit, zu welcher der Button das letzte mal gedrückt wurde. </td></tr>
+    <tr><td class="paramname">currentTime</td><td>enthält die aktuelle Zeit </td></tr>
+    <tr><td class="paramname">GPIO_Pin</td><td>enhält den Zustand des blauen Knopfes und wechselt in den operierenden Status, wenn gedrückt. </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Hier ist die printf Funktion zum Überprüfen der Konvertierung</p>
 
 </div>
 </div>

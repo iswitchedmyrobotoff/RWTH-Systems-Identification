@@ -1,21 +1,15 @@
 var searchData=
 [
-  ['rmii_5fcrs_5fdv_5fgpio_5fport_23325',['RMII_CRS_DV_GPIO_Port',['../main_8h.html#a297b0c7b7592c08c7896e94ccf2ac1e2',1,'main.h']]],
-  ['rmii_5fcrs_5fdv_5fpin_23326',['RMII_CRS_DV_Pin',['../main_8h.html#ade243165f5d976d8dff74752c4a97f0f',1,'main.h']]],
-  ['rmii_5fmdc_5fgpio_5fport_23327',['RMII_MDC_GPIO_Port',['../main_8h.html#aa0175330c9e9b6ee5a9fc4e2bcda4a55',1,'main.h']]],
-  ['rmii_5fmdc_5fpin_23328',['RMII_MDC_Pin',['../main_8h.html#afa5f3c1b1c190b27bd2d75ebe05f89a5',1,'main.h']]],
-  ['rmii_5fmdio_5fgpio_5fport_23329',['RMII_MDIO_GPIO_Port',['../main_8h.html#adcd7bbf23aef637fb610fafddfe4f516',1,'main.h']]],
-  ['rmii_5fmdio_5fpin_23330',['RMII_MDIO_Pin',['../main_8h.html#acf77057aa54e355b956bd6d5cafc0b19',1,'main.h']]],
-  ['rmii_5fref_5fclk_5fgpio_5fport_23331',['RMII_REF_CLK_GPIO_Port',['../main_8h.html#a1f838f9736d319e22a5434eca67d20c6',1,'main.h']]],
-  ['rmii_5fref_5fclk_5fpin_23332',['RMII_REF_CLK_Pin',['../main_8h.html#ad907d78ba4c74b87a38713ac0abd94e4',1,'main.h']]],
-  ['rmii_5frxd0_5fgpio_5fport_23333',['RMII_RXD0_GPIO_Port',['../main_8h.html#a986be58078ca5e807871d83702443fe8',1,'main.h']]],
-  ['rmii_5frxd0_5fpin_23334',['RMII_RXD0_Pin',['../main_8h.html#ab7389bae0ff0d1ac0e52932833daf522',1,'main.h']]],
-  ['rmii_5frxd1_5fgpio_5fport_23335',['RMII_RXD1_GPIO_Port',['../main_8h.html#aa86c095324f6842a8e8b831c22c7f570',1,'main.h']]],
-  ['rmii_5frxd1_5fpin_23336',['RMII_RXD1_Pin',['../main_8h.html#ae12c799456376a83914b7c4d888fd7ea',1,'main.h']]],
-  ['rmii_5ftx_5fen_5fgpio_5fport_23337',['RMII_TX_EN_GPIO_Port',['../main_8h.html#ae246c86239045e51fa305b7010885cb9',1,'main.h']]],
-  ['rmii_5ftx_5fen_5fpin_23338',['RMII_TX_EN_Pin',['../main_8h.html#a36389cf67d4a80347f399f93613ea2fc',1,'main.h']]],
-  ['rmii_5ftxd0_5fgpio_5fport_23339',['RMII_TXD0_GPIO_Port',['../main_8h.html#ab298954b023a6690e943184451ba01b2',1,'main.h']]],
-  ['rmii_5ftxd0_5fpin_23340',['RMII_TXD0_Pin',['../main_8h.html#a0e984c5c86e61480d27a0373cdc5e7ab',1,'main.h']]],
-  ['rmii_5ftxd1_5fgpio_5fport_23341',['RMII_TXD1_GPIO_Port',['../main_8h.html#a9886aa40b6e29ccd801b6b10c165bd7d',1,'main.h']]],
-  ['rmii_5ftxd1_5fpin_23342',['RMII_TXD1_Pin',['../main_8h.html#a582c2513143fe834c57d3db2ee7b7dc4',1,'main.h']]]
+  ['lcd_5fdefault_5faddr_23758',['LCD_DEFAULT_ADDR',['../lcd_8h.html#a0debc1e7ef67b41168472bff29658c59',1,'lcd.h']]],
+  ['lcd_5fdelay_5fms_23759',['LCD_DELAY_MS',['../lcd_8c.html#aec16ad332eb7f1dc349c5aa79f6117ee',1,'lcd.c']]],
+  ['lcd_5fi2c_5ftimeout_23760',['LCD_I2C_TIMEOUT',['../lcd_8c.html#aa32d69ee26fc419bc1bb323938ade7c9',1,'lcd.c']]],
+  ['ld1_5fgpio_5fport_23761',['LD1_GPIO_Port',['../main_8h.html#a3f6e18ed6195e2cc7716cc40013791ac',1,'main.h']]],
+  ['ld1_5fpin_23762',['LD1_Pin',['../main_8h.html#a6eff34015a2021110f6c96c0e1450e92',1,'main.h']]],
+  ['ld2_5fgpio_5fport_23763',['LD2_GPIO_Port',['../main_8h.html#a5aff6ddf7fe557e53b048115ad322aa0',1,'main.h']]],
+  ['ld2_5fpin_23764',['LD2_Pin',['../main_8h.html#af17a94dd613cff35c699b06c7c6a2820',1,'main.h']]],
+  ['ld3_5fgpio_5fport_23765',['LD3_GPIO_Port',['../main_8h.html#ae851c2d6146e6d4fac9f4a9983f5cf1f',1,'main.h']]],
+  ['ld3_5fpin_23766',['LD3_Pin',['../main_8h.html#a71154fae0eacbdf882bd1481164f0652',1,'main.h']]],
+  ['lse_5fstartup_5ftimeout_23767',['LSE_STARTUP_TIMEOUT',['../stm32f4xx__hal__conf_8h.html#a85e6fc812dc26f7161a04be2568a5462',1,'stm32f4xx_hal_conf.h']]],
+  ['lse_5fvalue_23768',['LSE_VALUE',['../stm32f4xx__hal__conf_8h.html#a7bbb9d19e5189a6ccd0fb6fa6177d20d',1,'stm32f4xx_hal_conf.h']]],
+  ['lsi_5fvalue_23769',['LSI_VALUE',['../stm32f4xx__hal__conf_8h.html#a4872023e65449c0506aac3ea6bec99e9',1,'stm32f4xx_hal_conf.h']]]
 ];

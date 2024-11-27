@@ -1,20 +1,6 @@
 var searchData=
 [
-  ['hal_5fcortex_5fmodule_5fenabled_23266',['HAL_CORTEX_MODULE_ENABLED',['../stm32f4xx__hal__conf_8h.html#aa9b5a3a425901e097de70092dbe31e0f',1,'stm32f4xx_hal_conf.h']]],
-  ['hal_5fdma_5fmodule_5fenabled_23267',['HAL_DMA_MODULE_ENABLED',['../stm32f4xx__hal__conf_8h.html#a6552186102a1131b2849ac55a582945d',1,'stm32f4xx_hal_conf.h']]],
-  ['hal_5feth_5fmodule_5fenabled_23268',['HAL_ETH_MODULE_ENABLED',['../stm32f4xx__hal__conf_8h.html#a90f68b22ea2284ed91c3414db0dea786',1,'stm32f4xx_hal_conf.h']]],
-  ['hal_5fexti_5fmodule_5fenabled_23269',['HAL_EXTI_MODULE_ENABLED',['../stm32f4xx__hal__conf_8h.html#aeb359e861d8a92c233c3229657dbcd74',1,'stm32f4xx_hal_conf.h']]],
-  ['hal_5fflash_5fmodule_5fenabled_23270',['HAL_FLASH_MODULE_ENABLED',['../stm32f4xx__hal__conf_8h.html#a7112575efe3740911f19a13e6b170fee',1,'stm32f4xx_hal_conf.h']]],
-  ['hal_5fgpio_5fmodule_5fenabled_23271',['HAL_GPIO_MODULE_ENABLED',['../stm32f4xx__hal__conf_8h.html#a86165f80d6078719ee0715afe13febf5',1,'stm32f4xx_hal_conf.h']]],
-  ['hal_5fis_5fbit_5fclr_23272',['HAL_IS_BIT_CLR',['../stm32f4xx__hal__def_8h.html#a82637a84fbdca0e2a25496089b549924',1,'stm32f4xx_hal_def.h']]],
-  ['hal_5fis_5fbit_5fset_23273',['HAL_IS_BIT_SET',['../stm32f4xx__hal__def_8h.html#a5b44dfd2a26f85f7b628b0945daff2c3',1,'stm32f4xx_hal_def.h']]],
-  ['hal_5fmax_5fdelay_23274',['HAL_MAX_DELAY',['../stm32f4xx__hal__def_8h.html#aad28bc64749c50dcedd6bf819fdc6974',1,'stm32f4xx_hal_def.h']]],
-  ['hal_5fmodule_5fenabled_23275',['HAL_MODULE_ENABLED',['../stm32f4xx__hal__conf_8h.html#a877ae99e8c47a609ea97c888912bf75f',1,'stm32f4xx_hal_conf.h']]],
-  ['hal_5fpcd_5fmodule_5fenabled_23276',['HAL_PCD_MODULE_ENABLED',['../stm32f4xx__hal__conf_8h.html#abc68645a06297042bf1f4d9f5a59f94b',1,'stm32f4xx_hal_conf.h']]],
-  ['hal_5fpwr_5fmodule_5fenabled_23277',['HAL_PWR_MODULE_ENABLED',['../stm32f4xx__hal__conf_8h.html#ab51923c3716977d7923f49cc9d081aa8',1,'stm32f4xx_hal_conf.h']]],
-  ['hal_5frcc_5fmodule_5fenabled_23278',['HAL_RCC_MODULE_ENABLED',['../stm32f4xx__hal__conf_8h.html#ac3dd74314ed62ac8575e2f9f48b3ac48',1,'stm32f4xx_hal_conf.h']]],
-  ['hal_5fuart_5fmodule_5fenabled_23279',['HAL_UART_MODULE_ENABLED',['../stm32f4xx__hal__conf_8h.html#a167269406e73327b95c3bb7b9cfe6d89',1,'stm32f4xx_hal_conf.h']]],
-  ['hse_5fstartup_5ftimeout_23280',['HSE_STARTUP_TIMEOUT',['../stm32f4xx__hal__conf_8h.html#a68ecbc9b0a1a40a1ec9d18d5e9747c4f',1,'stm32f4xx_hal_conf.h']]],
-  ['hse_5fvalue_23281',['HSE_VALUE',['../stm32f4xx__hal__conf_8h.html#aeafcff4f57440c60e64812dddd13e7cb',1,'stm32f4xx_hal_conf.h']]],
-  ['hsi_5fvalue_23282',['HSI_VALUE',['../stm32f4xx__hal__conf_8h.html#aaa8c76e274d0f6dd2cefb5d0b17fbc37',1,'stm32f4xx_hal_conf.h']]]
+  ['data_5fcache_5fenable_23729',['DATA_CACHE_ENABLE',['../stm32f4xx__hal__conf_8h.html#a5b4c32a40cf49b06c0d761e385949a6b',1,'stm32f4xx_hal_conf.h']]],
+  ['debounce_5fthreshold_23730',['DEBOUNCE_THRESHOLD',['../main_8cpp.html#a3804d1ca2392633e1a2ef97f75a5579e',1,'main.cpp']]],
+  ['dp83848_5fphy_5faddress_23731',['DP83848_PHY_ADDRESS',['../stm32f4xx__hal__conf_8h.html#a25f014091aaba92bdd9d95d0b2f00503',1,'stm32f4xx_hal_conf.h']]]
 ];

@@ -12,7 +12,10 @@
  * 4. call LCD_Print() or LCD_Printf()
  * 5. repeat from Step 3 whenever you want
  */
-
+/**
+ * @file lcd.h
+ * @brief lcd.h enthält als Header-Datei von lcd.c die Deklarationen der Funktionen für das LCD Display
+ */
 #ifndef SRC_LCD_LCD_H_
 #define SRC_LCD_LCD_H_
 

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.16"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>systems_identification: Drivers/CMSIS/Include/core_cm23.h Source File</title>
+<title>Projektdokumentation_V1.0_MB: Drivers/CMSIS/Include/core_cm23.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -29,8 +29,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">systems_identification
-   &#160;<span id="projectnumber">0.2</span>
+   <div id="projectname">Projektdokumentation_V1.0_MB
    </div>
   </td>
  </tr>
@@ -1518,11 +1517,11 @@ $(document).ready(function(){initNavTree('core__cm23_8h_source.html','');});
 <div class="line"><a name="l02106"></a><span class="lineno"> 2106</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* defined (__ARM_FEATURE_CMSE) &amp;&amp; (__ARM_FEATURE_CMSE == 3U) */</span><span class="preprocessor"></span></div>
 <div class="line"><a name="l02107"></a><span class="lineno"> 2107</span>&#160; </div>
 <div class="line"><a name="l02113"></a><span class="lineno"> 2113</span>&#160;<span class="comment">/* ##################################    Debug Control function  ############################################ */</span></div>
-<div class="line"><a name="l02127"></a><span class="lineno"> 2127</span>&#160;<a class="code" href="cmsis__armcc_8h.html#aba87361bfad2ae52cfe2f40c1a1dbf9c">__STATIC_INLINE</a> <span class="keywordtype">void</span> <a class="code" href="group___c_m_s_i_s___core___n_v_i_c_functions.html#ga8684eef21a32a624112814027635796b">DCB_SetAuthCtrl</a>(uint32_t value)</div>
+<div class="line"><a name="l02127"></a><span class="lineno"> 2127</span>&#160;<a class="code" href="cmsis__armcc_8h.html#aba87361bfad2ae52cfe2f40c1a1dbf9c">__STATIC_INLINE</a> <span class="keywordtype">void</span> <a class="code" href="group___c_m_s_i_s___core___n_v_i_c_functions.html#ga8684eef21a32a624112814027635796b">DCB_SetAuthCtrl</a>(uint32_t <a class="code" href="lcd_8c.html#ac4f474c82e82cbb89ca7c36dd52be0ed">value</a>)</div>
 <div class="line"><a name="l02128"></a><span class="lineno"> 2128</span>&#160;{</div>
 <div class="line"><a name="l02129"></a><span class="lineno"> 2129</span>&#160;    <a class="code" href="group___c_m_s_i_s___core___instruction_interface.html#ga7fe277f5385d23b9c44b2cbda1577ce9">__DSB</a>();</div>
 <div class="line"><a name="l02130"></a><span class="lineno"> 2130</span>&#160;    <a class="code" href="group___c_m_s_i_s___core___instruction_interface.html#gae26c2b3961e702aeabc24d4984ebd369">__ISB</a>();</div>
-<div class="line"><a name="l02131"></a><span class="lineno"> 2131</span>&#160;    <a class="code" href="group___c_m_s_i_s__core__base.html#ga17ff3ff0a32abe8ce8ae632c6e31d772">DCB</a>-&gt;DAUTHCTRL = value;</div>
+<div class="line"><a name="l02131"></a><span class="lineno"> 2131</span>&#160;    <a class="code" href="group___c_m_s_i_s__core__base.html#ga17ff3ff0a32abe8ce8ae632c6e31d772">DCB</a>-&gt;DAUTHCTRL = <a class="code" href="lcd_8c.html#ac4f474c82e82cbb89ca7c36dd52be0ed">value</a>;</div>
 <div class="line"><a name="l02132"></a><span class="lineno"> 2132</span>&#160;    <a class="code" href="group___c_m_s_i_s___core___instruction_interface.html#ga7fe277f5385d23b9c44b2cbda1577ce9">__DSB</a>();</div>
 <div class="line"><a name="l02133"></a><span class="lineno"> 2133</span>&#160;    <a class="code" href="group___c_m_s_i_s___core___instruction_interface.html#gae26c2b3961e702aeabc24d4984ebd369">__ISB</a>();</div>
 <div class="line"><a name="l02134"></a><span class="lineno"> 2134</span>&#160;}</div>
@@ -1536,11 +1535,11 @@ $(document).ready(function(){initNavTree('core__cm23_8h_source.html','');});
 <div class="line"><a name="l02147"></a><span class="lineno"> 2147</span>&#160; </div>
 <div class="line"><a name="l02148"></a><span class="lineno"> 2148</span>&#160;<span class="preprocessor">#if defined (__ARM_FEATURE_CMSE) &amp;&amp; (__ARM_FEATURE_CMSE == 3U)</span></div>
 <div class="line"><a name="l02149"></a><span class="lineno"> 2149</span>&#160; </div>
-<div class="line"><a name="l02154"></a><span class="lineno"> 2154</span>&#160;<a class="code" href="cmsis__armcc_8h.html#aba87361bfad2ae52cfe2f40c1a1dbf9c">__STATIC_INLINE</a> <span class="keywordtype">void</span> TZ_DCB_SetAuthCtrl_NS(uint32_t value)</div>
+<div class="line"><a name="l02154"></a><span class="lineno"> 2154</span>&#160;<a class="code" href="cmsis__armcc_8h.html#aba87361bfad2ae52cfe2f40c1a1dbf9c">__STATIC_INLINE</a> <span class="keywordtype">void</span> TZ_DCB_SetAuthCtrl_NS(uint32_t <a class="code" href="lcd_8c.html#ac4f474c82e82cbb89ca7c36dd52be0ed">value</a>)</div>
 <div class="line"><a name="l02155"></a><span class="lineno"> 2155</span>&#160;{</div>
 <div class="line"><a name="l02156"></a><span class="lineno"> 2156</span>&#160;    <a class="code" href="group___c_m_s_i_s___core___instruction_interface.html#ga7fe277f5385d23b9c44b2cbda1577ce9">__DSB</a>();</div>
 <div class="line"><a name="l02157"></a><span class="lineno"> 2157</span>&#160;    <a class="code" href="group___c_m_s_i_s___core___instruction_interface.html#gae26c2b3961e702aeabc24d4984ebd369">__ISB</a>();</div>
-<div class="line"><a name="l02158"></a><span class="lineno"> 2158</span>&#160;    DCB_NS-&gt;DAUTHCTRL = value;</div>
+<div class="line"><a name="l02158"></a><span class="lineno"> 2158</span>&#160;    DCB_NS-&gt;DAUTHCTRL = <a class="code" href="lcd_8c.html#ac4f474c82e82cbb89ca7c36dd52be0ed">value</a>;</div>
 <div class="line"><a name="l02159"></a><span class="lineno"> 2159</span>&#160;    <a class="code" href="group___c_m_s_i_s___core___instruction_interface.html#ga7fe277f5385d23b9c44b2cbda1577ce9">__DSB</a>();</div>
 <div class="line"><a name="l02160"></a><span class="lineno"> 2160</span>&#160;    <a class="code" href="group___c_m_s_i_s___core___instruction_interface.html#gae26c2b3961e702aeabc24d4984ebd369">__ISB</a>();</div>
 <div class="line"><a name="l02161"></a><span class="lineno"> 2161</span>&#160;}</div>
@@ -1637,6 +1636,7 @@ $(document).ready(function(){initNavTree('core__cm23_8h_source.html','');});
 <div class="ttc" id="agroup___c_m_s_i_s___core___n_v_i_c_functions_html_gaa2837003c28c45abf193fe5e8d27f593"><div class="ttname"><a href="group___c_m_s_i_s___core___n_v_i_c_functions.html#gaa2837003c28c45abf193fe5e8d27f593">__NVIC_GetActive</a></div><div class="ttdeci">__STATIC_INLINE uint32_t __NVIC_GetActive(IRQn_Type IRQn)</div><div class="ttdoc">Get Active Interrupt.</div><div class="ttdef"><b>Definition:</b> core_armv81mml.h:3396</div></div>
 <div class="ttc" id="agroup___c_m_s_i_s___core___n_v_i_c_functions_html_gaee4f7eb5d7e770ad51489dbceabb1755"><div class="ttname"><a href="group___c_m_s_i_s___core___n_v_i_c_functions.html#gaee4f7eb5d7e770ad51489dbceabb1755">_SHP_IDX</a></div><div class="ttdeci">#define _SHP_IDX(IRQn)</div><div class="ttdef"><b>Definition:</b> core_cm23.h:1509</div></div>
 <div class="ttc" id="agroup___c_m_s_i_s___core___n_v_i_c_functions_html_ga0df355460bc1783d58f9d72ee4884208"><div class="ttname"><a href="group___c_m_s_i_s___core___n_v_i_c_functions.html#ga0df355460bc1783d58f9d72ee4884208">__NVIC_SetVector</a></div><div class="ttdeci">__STATIC_INLINE void __NVIC_SetVector(IRQn_Type IRQn, uint32_t vector)</div><div class="ttdoc">Set Interrupt Vector.</div><div class="ttdef"><b>Definition:</b> core_armv81mml.h:3582</div></div>
+<div class="ttc" id="alcd_8c_html_ac4f474c82e82cbb89ca7c36dd52be0ed"><div class="ttname"><a href="lcd_8c.html#ac4f474c82e82cbb89ca7c36dd52be0ed">value</a></div><div class="ttdeci">int value</div></div>
 <div class="ttc" id="acore__cm23_8h_html_a4cc1649793116d7c2d8afce7a4ffce43"><div class="ttname"><a href="core__cm23_8h.html#a4cc1649793116d7c2d8afce7a4ffce43">__IM</a></div><div class="ttdeci">#define __IM</div><div class="ttdef"><b>Definition:</b> core_cm23.h:200</div></div>
 <div class="ttc" id="agroup___c_m_s_i_s___core___instruction_interface_html_ga7fe277f5385d23b9c44b2cbda1577ce9"><div class="ttname"><a href="group___c_m_s_i_s___core___instruction_interface.html#ga7fe277f5385d23b9c44b2cbda1577ce9">__DSB</a></div><div class="ttdeci">__STATIC_FORCEINLINE void __DSB(void)</div><div class="ttdoc">Data Synchronization Barrier.</div><div class="ttdef"><b>Definition:</b> cmsis_gcc.h:269</div></div>
 <div class="ttc" id="agroup___c_m_s_i_s___core___n_v_i_c_functions_html_gadb94ac5d892b376e4f3555ae0418ebac"><div class="ttname"><a href="group___c_m_s_i_s___core___n_v_i_c_functions.html#gadb94ac5d892b376e4f3555ae0418ebac">NVIC_EncodePriority</a></div><div class="ttdeci">__STATIC_INLINE uint32_t NVIC_EncodePriority(uint32_t PriorityGroup, uint32_t PreemptPriority, uint32_t SubPriority)</div><div class="ttdoc">Encode Priority.</div><div class="ttdef"><b>Definition:</b> core_armv81mml.h:3532</div></div>

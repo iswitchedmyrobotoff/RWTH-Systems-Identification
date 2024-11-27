@@ -10,6 +10,8 @@ var dir_30168dac808c8ac2b97106172ddd8c3b =
     [ "stm32f4xx_hal_flash_ex.c", "stm32f4xx__hal__flash__ex_8c.html", null ],
     [ "stm32f4xx_hal_flash_ramfunc.c", "stm32f4xx__hal__flash__ramfunc_8c.html", null ],
     [ "stm32f4xx_hal_gpio.c", "stm32f4xx__hal__gpio_8c.html", null ],
+    [ "stm32f4xx_hal_i2c.c", "stm32f4xx__hal__i2c_8c.html", null ],
+    [ "stm32f4xx_hal_i2c_ex.c", "stm32f4xx__hal__i2c__ex_8c.html", null ],
     [ "stm32f4xx_hal_pcd.c", "stm32f4xx__hal__pcd_8c.html", null ],
     [ "stm32f4xx_hal_pcd_ex.c", "stm32f4xx__hal__pcd__ex_8c.html", null ],
     [ "stm32f4xx_hal_pwr.c", "stm32f4xx__hal__pwr_8c.html", null ],

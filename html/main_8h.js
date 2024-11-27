@@ -48,7 +48,9 @@ var main_8h =
     [ "USB_SOF_Pin", "main_8h.html#a827884915b2f7093d441d4ddf5631f35", null ],
     [ "USB_VBUS_GPIO_Port", "main_8h.html#a2215a8eb7ae97f4115da4aafa1c4ec5b", null ],
     [ "USB_VBUS_Pin", "main_8h.html#a1ce85a590e1d720a478d0c7bd9c8c40e", null ],
+    [ "USER_Btn_EXTI_IRQn", "main_8h.html#a8840c4572dbb06a37ea9f35c91e9ea70", null ],
     [ "USER_Btn_GPIO_Port", "main_8h.html#ad6e307989b29ec5e1417d8a7f74f5b09", null ],
     [ "USER_Btn_Pin", "main_8h.html#a9ddc054768a8315b2a997ad15a7e89ae", null ],
-    [ "Error_Handler", "main_8h.html#a1730ffe1e560465665eb47d9264826f9", null ]
+    [ "Error_Handler", "main_8h.html#a1730ffe1e560465665eb47d9264826f9", null ],
+    [ "HAL_TIM_MspPostInit", "main_8h.html#ae70bce6c39d0b570a7523b86738cec4b", null ]
 ];

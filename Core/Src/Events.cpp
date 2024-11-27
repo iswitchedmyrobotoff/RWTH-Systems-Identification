@@ -1,3 +1,8 @@
+/**
+ * @file Events.cpp
+ * @brief Events.cpp enthält Evente für zb. das Display
+ */
+
 #include "Events.h"
 
 #include <string>
@@ -30,7 +35,21 @@ void CancelEvent::handleEvent(){}
 CancelEvent::~CancelEvent() {}
 
 DisplayEvent::DisplayEvent(LCD_HandleTypeDef& lcd, std::string text): p_lLcd(lcd), p_sText(text){}
-
+/**
+ * @brief DisplayEvent
+ *
+ *@details
+ * -Sorgt für die Ausgabe des Textes auf dem LCD Display
+ * -Wenn genügend Platz auf dem Display vorhanden ist, dann gebe den Text aus
+ * ansonsten gebe die Hälfte aus. Bei mehr als 32 gibt es einen Fehler
+ * -c_str macht einen Konstanten String aus den text-Varriablen
+ *
+ * @param text1 string, welcher den ersten Teil des Textes enthält
+ * @param text2 string, welcher den zweiten Teil des Textes enthält
+ * @param p_sTest string member Varriable von der Klasse
+ * @param midpoint enthält den geteilten Text
+ *
+ */
 void DisplayEvent::handleEvent()
 {
 	std::string text1 = "";

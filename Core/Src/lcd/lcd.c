@@ -1,12 +1,16 @@
-/*
- * lcd.c
+/**
+ * @file lcd.c
+ * @brief lcd.c enthält die Ansteuerung an das DIsplay und wird in der main.cpp angesteuert
  *
+ *
+ * @attention
  *  Created on: Oct 14, 2022
  *      Author: pfeifer
  *
  *  Original by Aleksander Alekseev and @sstaub
  *  MIT License
  */
+
 #include "lcd.h"
 #include<stdio.h>
 
@@ -44,7 +48,14 @@ HAL_StatusTypeDef _LCD_SendInternal(LCD_HandleTypeDef *dev, uint8_t data, uint8_
     data_arr[3] = lo|flags|backlight;
 
     //TODO send data_arr to the device
-    // sends the data from the microcontroller (master) to the LCD (slave)
+    /**
+     * @brief Dient der Übertragung vom Mikrokontroller zum LCD Display
+     *
+     * sends the data from the microcontroller (master) to the LCD (slave)
+     * Hat einen Delay eingebaut um das Display vor zu vielen inputs zu schützen
+     *
+     * @return res sollte der Transmit fehlgeschlagen sein, wird ein error ausgegeben
+     */
     res = HAL_I2C_Master_Transmit(dev->i2c, dev->i2c_addr, data_arr, sizeof(data_arr), LCD_I2C_TIMEOUT);
     if (res != HAL_OK)
     {

@@ -1,5 +1,6 @@
 var modules =
 [
+    [ "Initalisierung_des_Displays", "group___initalisierung__des___displays.html", "group___initalisierung__des___displays" ],
     [ "CMSIS Core Instruction Interface", "group___c_m_s_i_s___core___instruction_interface.html", "group___c_m_s_i_s___core___instruction_interface" ],
     [ "CMSIS Global Defines", "group___c_m_s_i_s__glob__defs.html", null ],
     [ "Defines and Type Definitions", "group___c_m_s_i_s__core__register.html", "group___c_m_s_i_s__core__register" ],

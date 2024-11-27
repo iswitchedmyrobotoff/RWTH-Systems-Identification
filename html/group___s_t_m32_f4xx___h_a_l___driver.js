@@ -10,6 +10,8 @@ var group___s_t_m32_f4xx___h_a_l___driver =
     [ "FLASHEx", "group___f_l_a_s_h_ex.html", "group___f_l_a_s_h_ex" ],
     [ "FLASH RAMFUNC", "group___f_l_a_s_h___r_a_m_f_u_n_c.html", null ],
     [ "GPIO", "group___g_p_i_o.html", "group___g_p_i_o" ],
+    [ "I2C", "group___i2_c.html", "group___i2_c" ],
+    [ "I2CEx", "group___i2_c_ex.html", null ],
     [ "PCD", "group___p_c_d.html", null ],
     [ "PCDEx", "group___p_c_d_ex.html", null ],
     [ "PWR", "group___p_w_r.html", "group___p_w_r" ],

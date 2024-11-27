@@ -1,8 +1,10 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file           : main.c
+  * @file           : main.cpp
   * @brief          : Main program body
+  * @mainpage
+  * Autoren des Projekts: MB, J, B
   ******************************************************************************
   * @attention
   *
@@ -29,6 +31,7 @@
 
 #include <string>
 #include <queue>
+#include <stdio.h>
 #include <memory>
 #include "Events.h"
 #include "Enums.h"
@@ -81,7 +84,7 @@ uint32_t currentTime;
 uint32_t lastButtonPressTime;
 uint32_t buttonPressCount;
 LCD_HandleTypeDef lcd;
-
+//! Hier wird ein Objekt event_queue erstellt
 std::queue<std::unique_ptr<Event>> event_queue;
 
 
@@ -110,9 +113,23 @@ void clearQueue()
         event_queue.pop();
     }
 }
-
+/**
+ * @brief HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) ist ein interrupt, welcher den Operierenden Betrieb enthält.
+ *
+ * @details Somit wird alles was beim operieren ausgelößt werden soll, hier aufgerufen
+ *
+ * Ebenfalls gibt es ein printf mit einem float um die convertierung von c zu cpp zu überprüfen.
+ *
+ * @details Nachdem das Operieren beendet wurde, werden die Resultate angezeigt und danach wird die Queue berreinigt.
+ *
+ * @param lastButtonPressTime enthält die Zeit, zu welcher der Button das letzte mal gedrückt wurde.
+ * @param currentTime enthält die aktuelle Zeit
+ * @param GPIO_Pin enhält den Zustand des blauen Knopfes und wechselt in den operierenden Status, wenn gedrückt.
+ */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
+	//! Hier ist die printf Funktion zum Überprüfen der Konvertierung
+	printf("%f", 1.2345);
   if (GPIO_Pin == GPIO_PIN_BUTTON)
   {
     currentTime = HAL_GetTick();
@@ -155,6 +172,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 /**
   * @brief  The application entry point.
+  *  Hier ist das Projekt festgehalten. Zusätzlich werden hier die Interrups aufgerufen und das
+  *  Programm an sich ausgeführt. Hier erfolgt ebenfalls die abfolge mit dem drücken des Buttons,
+  *  welcher ein Event auslöst und so die Mesung startet
   * @retval int
   */
 int main(void)
@@ -188,7 +208,31 @@ int main(void)
   MX_I2C2_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
+/**
+ * @defgroup Initalisierung_des_Displays
+ * @brief Initialisiert die Hardwarekomponenten und das Event-System.
+ *
+ * @details Dieser Abschnitt des Codes richtet die LCD-Anzeige, die PWM-Kanäle und die
+ * Ereigniswarteschlange ein. Er stellt sicher, dass die Hardware bereit ist und das
+ * System in einen definierten Ausgangszustand versetzt wird.
+ * Die Ereignisse in der Warteschlange starten anschließend die Anwendung.
+ *
+ * @{
+ */
 
+	 /**
+	 * @ingroup Initialization
+	 * @brief Initialisiert LCD, PWM und Ereigniswarteschlange.
+	 *
+	 * @details
+	 * - Das LCD-Modul wird über I2C mit Standardadresse konfiguriert und eingeschaltet.
+	 *   Anschließend wird das Display gelöscht, um mit einer sauberen Anzeige zu starten.
+	 * - PWM-Signale auf drei Kanälen des Timers werden aktiviert.
+	 * - Drei Initialereignisse werden in die Ereigniswarteschlange eingefügt:
+	 *   1. StartEvent: Startet das System.
+	 *   2. TestEventLED: Testet eine LED mit einer bestimmten Farbe.
+	 *   3. DisplayEvent: Zeigt eine Statusnachricht auf dem LCD an.
+	 */
   lcd.i2c = &hi2c2;
   lcd.i2c_addr = LCD_DEFAULT_ADDR; // 0x27 << 1
   lcd.backlight_enable = true;
@@ -203,11 +247,22 @@ int main(void)
   event_queue.push(std::make_unique<TestEventLED>(htim4, GREEN));
   event_queue.push(std::make_unique<DisplayEvent>(lcd, "Ready to receive input."));
 
+  //!@}
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  /**
+   * @defgroup while-Schleife
+   * @brief while-Schleife, welche durch ein interrupt unterbrochen wird
+   *
+   * @details
+   * -Wenn die event_queue nicht leer ist, dann bewegt sich das Objekt nach vorne und wird
+   * abgearbeitet (Also gepopt)
+   * -Danach kommt es zu einer Verzögerung
+   *@{
+   */
   while (1)
   {
 
@@ -222,7 +277,7 @@ int main(void)
 	HAL_Delay(500);
 
 
-
+/** @} *///Ende des Abschnitt der while-Schleife
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.16"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>systems_identification: Core/Inc/stm32f4xx_hal_conf.h File Reference</title>
+<title>Projektdokumentation_V1.0_MB: Core/Inc/stm32f4xx_hal_conf.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -29,8 +29,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">systems_identification
-   &#160;<span id="projectnumber">0.2</span>
+   <div id="projectname">Projektdokumentation_V1.0_MB
    </div>
   </td>
  </tr>
@@ -99,7 +98,9 @@ $(document).ready(function(){initNavTree('stm32f4xx__hal__conf_8h.html','');});
 <code>#include &quot;<a class="el" href="stm32f4xx__hal__cortex_8h_source.html">stm32f4xx_hal_cortex.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="stm32f4xx__hal__eth_8h_source.html">stm32f4xx_hal_eth.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="stm32f4xx__hal__flash_8h_source.html">stm32f4xx_hal_flash.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="stm32f4xx__hal__i2c_8h_source.html">stm32f4xx_hal_i2c.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="stm32f4xx__hal__pwr_8h_source.html">stm32f4xx_hal_pwr.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="stm32f4xx__hal__tim_8h_source.html">stm32f4xx_hal_tim.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="stm32f4xx__hal__uart_8h_source.html">stm32f4xx_hal_uart.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="stm32f4xx__hal__pcd_8h_source.html">stm32f4xx_hal_pcd.h</a>&quot;</code><br />
 </div>
@@ -112,6 +113,10 @@ Macros</h2></td></tr>
 <tr class="separator:a877ae99e8c47a609ea97c888912bf75f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90f68b22ea2284ed91c3414db0dea786"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stm32f4xx__hal__conf_8h.html#a90f68b22ea2284ed91c3414db0dea786">HAL_ETH_MODULE_ENABLED</a></td></tr>
 <tr class="separator:a90f68b22ea2284ed91c3414db0dea786"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19999766418b0224871f732d800841c6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stm32f4xx__hal__conf_8h.html#a19999766418b0224871f732d800841c6">HAL_I2C_MODULE_ENABLED</a></td></tr>
+<tr class="separator:a19999766418b0224871f732d800841c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23382b8f04b3e6db2c59dfa1ef5ea4a2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stm32f4xx__hal__conf_8h.html#a23382b8f04b3e6db2c59dfa1ef5ea4a2">HAL_TIM_MODULE_ENABLED</a></td></tr>
+<tr class="separator:a23382b8f04b3e6db2c59dfa1ef5ea4a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a167269406e73327b95c3bb7b9cfe6d89"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stm32f4xx__hal__conf_8h.html#a167269406e73327b95c3bb7b9cfe6d89">HAL_UART_MODULE_ENABLED</a></td></tr>
 <tr class="separator:a167269406e73327b95c3bb7b9cfe6d89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc68645a06297042bf1f4d9f5a59f94b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stm32f4xx__hal__conf_8h.html#abc68645a06297042bf1f4d9f5a59f94b">HAL_PCD_MODULE_ENABLED</a></td></tr>
@@ -519,6 +524,20 @@ Macros</h2></td></tr>
 
 </div>
 </div>
+<a id="a19999766418b0224871f732d800841c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19999766418b0224871f732d800841c6">&#9670;&nbsp;</a></span>HAL_I2C_MODULE_ENABLED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HAL_I2C_MODULE_ENABLED</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a877ae99e8c47a609ea97c888912bf75f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a877ae99e8c47a609ea97c888912bf75f">&#9670;&nbsp;</a></span>HAL_MODULE_ENABLED</h2>
 
@@ -571,6 +590,20 @@ Macros</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define HAL_RCC_MODULE_ENABLED</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a23382b8f04b3e6db2c59dfa1ef5ea4a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23382b8f04b3e6db2c59dfa1ef5ea4a2">&#9670;&nbsp;</a></span>HAL_TIM_MODULE_ENABLED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HAL_TIM_MODULE_ENABLED</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -1,3 +1,7 @@
+/**
+ * @file Events.h
+ * @brief Events.h ist die Header-Datei zu Events.cpp
+ */
 #ifndef EVENTS_H
 #define EVENTS_H
 #include <iostream>
