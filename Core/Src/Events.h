@@ -1,3 +1,7 @@
+/**
+ * @file Events.h
+ * @brief Events.h ist die Header-Datei zu Events.cpp
+ */
 #ifndef EVENTS_H
 #define EVENTS_H
 #include <iostream>
@@ -7,6 +11,8 @@ extern "C"
 {
 	#include "lcd/lcd.h"
 }
+
+
 
 class Event
 {
@@ -59,12 +65,15 @@ public:
 	~TestEventLED();
 };
 
+// UPDATE: nicht mehr benötigt, kann gelöscht werden
+/*
 class TestEventGreenBlink: public Event
 {
 public:
 	void handleEvent() override;
 	~TestEventGreenBlink();
 };
+*/
 
 
 

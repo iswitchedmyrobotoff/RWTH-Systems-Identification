@@ -1,3 +1,8 @@
+/**
+ * @file Events.cpp
+ * @brief Events.cpp enthält Evente für zb. das Display
+ */
+
 #include "Events.h"
 
 #include <string>
@@ -6,7 +11,8 @@ extern "C"
 	#include "lcd/lcd.h"
 }
 
-extern TIM_HandleTypeDef htim4;
+//extern TIM_HandleTypeDef htim4; UPDATE: nicht mehr benötigt, kann gelöscht werden
+extern TIM_HandleTypeDef htim3; // UPDATE: Interrupt fürs Blinken
 extern State currentState;
 
 void Event::handleEvent(){}
@@ -30,7 +36,21 @@ void CancelEvent::handleEvent(){}
 CancelEvent::~CancelEvent() {}
 
 DisplayEvent::DisplayEvent(LCD_HandleTypeDef& lcd, std::string text): p_lLcd(lcd), p_sText(text){}
-
+/**
+ * @brief DisplayEvent
+ *
+ *@details
+ * -Sorgt für die Ausgabe des Textes auf dem LCD Display
+ * -Wenn genügend Platz auf dem Display vorhanden ist, dann gebe den Text aus
+ * ansonsten gebe die Hälfte aus. Bei mehr als 32 gibt es einen Fehler
+ * -c_str macht einen Konstanten String aus den text-Varriablen
+ *
+ * @param text1 string, welcher den ersten Teil des Textes enthält
+ * @param text2 string, welcher den zweiten Teil des Textes enthält
+ * @param p_sTest string member Varriable von der Klasse
+ * @param midpoint enthält den geteilten Text
+ *
+ */
 void DisplayEvent::handleEvent()
 {
 	std::string text1 = "";
@@ -77,18 +97,25 @@ void TestEventLED::handleEvent()
 	__HAL_TIM_SET_COMPARE(&p_tHtim, TIM_CHANNEL_1, red);
 	__HAL_TIM_SET_COMPARE(&p_tHtim, TIM_CHANNEL_3, green);
 	__HAL_TIM_SET_COMPARE(&p_tHtim, TIM_CHANNEL_4, blue);
+
+	// UPDATE: Starten des Timers fürs Blinken, Stoppen für andere LED-Zustände
+	if (p_lLED == BLINKING){HAL_TIM_Base_Start_IT(&htim3);}
+	else{HAL_TIM_Base_Stop_IT(&htim3);}
 }
 
 TestEventLED::~TestEventLED() {}
 
+// UPDATE: nicht mehr benötigt, kann gelöscht werden
+/*
 void TestEventGreenBlink::handleEvent()
 {
 	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 0);
 	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, 0);
 	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_4, 0);
 }
+*/
 
-TestEventGreenBlink::~TestEventGreenBlink(){}
+// TestEventGreenBlink::~TestEventGreenBlink(){} UPDATE: nicht mehr benötigt, kann gelöscht werden 
 
 
 void StartMeasureEvent::handleEvent()
