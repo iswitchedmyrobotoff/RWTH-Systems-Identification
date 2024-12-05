@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.16"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Projektdokumentation_V1.0_MB: Core/Src/Events.h Source File</title>
+<title>RWTH_Project_IC: Core/Src/Events.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -29,7 +29,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Projektdokumentation_V1.0_MB
+   <div id="projectname">RWTH_Project_IC
+   &#160;<span id="projectnumber">v1.8</span>
    </div>
   </td>
  </tr>
@@ -153,83 +154,83 @@ $(document).ready(function(){initNavTree('_events_8h_source.html','');});
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="class_test_event_l_e_d.html#a52cbfd9712da55eb793e1063b9f19f47">~TestEventLED</a>();</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;};</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="class_test_event_green_blink.html">   68</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_test_event_green_blink.html">TestEventGreenBlink</a>: <span class="keyword">public</span> <a class="code" href="class_event.html">Event</a></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;{</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_test_event_green_blink.html#a697dcc11d564f752b53314f232335115">handleEvent</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="class_test_event_green_blink.html#a1f4ac2a477daa6244687d3556bf9f95f">~TestEventGreenBlink</a>();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;};</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="class_start_measure_event.html">   77</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_start_measure_event.html">StartMeasureEvent</a>: <span class="keyword">public</span> <a class="code" href="class_event.html">Event</a></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;{</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_start_measure_event.html#a69e19a3556694852ca39131919ab1eb6">handleEvent</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="class_start_measure_event.html#aa93459b48007094c6c201a2d6203efb7">~StartMeasureEvent</a>();</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;};</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="class_calculation_event.html">   85</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_calculation_event.html">CalculationEvent</a>: <span class="keyword">public</span> <a class="code" href="class_event.html">Event</a></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;{</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_calculation_event.html#ab0be9ddfb18653bde25087467a28d100">handleEvent</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <a class="code" href="class_calculation_event.html#abd56a06d2ba11e8d2e152ee78b8b1c10">~CalculationEvent</a>();</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;};</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="class_final_calculation_event.html">   92</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_final_calculation_event.html">FinalCalculationEvent</a>: <span class="keyword">public</span> <a class="code" href="class_event.html">Event</a></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;{</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_final_calculation_event.html#a7d5162501e9e613338ded5e0e28d9d15">handleEvent</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <a class="code" href="class_final_calculation_event.html#a13f031d7c972f197cc14cce5f56d7995">~FinalCalculationEvent</a>();</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;};</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">// UPDATE: nicht mehr benötigt, kann gelöscht werden</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment">class TestEventGreenBlink: public Event</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">{</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">public:</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">    void handleEvent() override;</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">    ~TestEventGreenBlink();</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">};</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="class_start_measure_event.html">   80</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_start_measure_event.html">StartMeasureEvent</a>: <span class="keyword">public</span> <a class="code" href="class_event.html">Event</a></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;{</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_start_measure_event.html#a69e19a3556694852ca39131919ab1eb6">handleEvent</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <a class="code" href="class_start_measure_event.html#aa93459b48007094c6c201a2d6203efb7">~StartMeasureEvent</a>();</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;};</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="class_calculation_event.html">   88</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_calculation_event.html">CalculationEvent</a>: <span class="keyword">public</span> <a class="code" href="class_event.html">Event</a></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;{</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_calculation_event.html#ab0be9ddfb18653bde25087467a28d100">handleEvent</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <a class="code" href="class_calculation_event.html#abd56a06d2ba11e8d2e152ee78b8b1c10">~CalculationEvent</a>();</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;};</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="class_final_calculation_event.html">   95</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_final_calculation_event.html">FinalCalculationEvent</a>: <span class="keyword">public</span> <a class="code" href="class_event.html">Event</a></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;{</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_final_calculation_event.html#a7d5162501e9e613338ded5e0e28d9d15">handleEvent</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <a class="code" href="class_final_calculation_event.html#a13f031d7c972f197cc14cce5f56d7995">~FinalCalculationEvent</a>();</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;};</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="amain_8cpp_html_abcb51504e580c445b012a872539a6bcf"><div class="ttname"><a href="main_8cpp.html#abcb51504e580c445b012a872539a6bcf">lcd</a></div><div class="ttdeci">LCD_HandleTypeDef lcd</div><div class="ttdef"><b>Definition:</b> main.cpp:86</div></div>
-<div class="ttc" id="aclass_test_event_green_blink_html"><div class="ttname"><a href="class_test_event_green_blink.html">TestEventGreenBlink</a></div><div class="ttdef"><b>Definition:</b> Events.h:68</div></div>
+<div class="ttc" id="amain_8cpp_html_abcb51504e580c445b012a872539a6bcf"><div class="ttname"><a href="main_8cpp.html#abcb51504e580c445b012a872539a6bcf">lcd</a></div><div class="ttdeci">LCD_HandleTypeDef lcd</div><div class="ttdef"><b>Definition:</b> main.cpp:87</div></div>
 <div class="ttc" id="astruct_l_c_d___handle_type_def_html"><div class="ttname"><a href="struct_l_c_d___handle_type_def.html">LCD_HandleTypeDef</a></div><div class="ttdef"><b>Definition:</b> lcd.h:28</div></div>
-<div class="ttc" id="aclass_start_measure_event_html"><div class="ttname"><a href="class_start_measure_event.html">StartMeasureEvent</a></div><div class="ttdef"><b>Definition:</b> Events.h:77</div></div>
-<div class="ttc" id="aclass_display_event_html_aa18a3debfd17dcb2f4ed853f25d9887c"><div class="ttname"><a href="class_display_event.html#aa18a3debfd17dcb2f4ed853f25d9887c">DisplayEvent::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdoc">DisplayEvent.</div><div class="ttdef"><b>Definition:</b> Events.cpp:53</div></div>
+<div class="ttc" id="aclass_start_measure_event_html"><div class="ttname"><a href="class_start_measure_event.html">StartMeasureEvent</a></div><div class="ttdef"><b>Definition:</b> Events.h:80</div></div>
+<div class="ttc" id="aclass_display_event_html_aa18a3debfd17dcb2f4ed853f25d9887c"><div class="ttname"><a href="class_display_event.html#aa18a3debfd17dcb2f4ed853f25d9887c">DisplayEvent::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdoc">DisplayEvent.</div><div class="ttdef"><b>Definition:</b> Events.cpp:54</div></div>
 <div class="ttc" id="aclass_show_results_event_html"><div class="ttname"><a href="class_show_results_event.html">ShowResultsEvent</a></div><div class="ttdef"><b>Definition:</b> Events.h:31</div></div>
-<div class="ttc" id="aclass_final_calculation_event_html"><div class="ttname"><a href="class_final_calculation_event.html">FinalCalculationEvent</a></div><div class="ttdef"><b>Definition:</b> Events.h:92</div></div>
+<div class="ttc" id="aclass_final_calculation_event_html"><div class="ttname"><a href="class_final_calculation_event.html">FinalCalculationEvent</a></div><div class="ttdef"><b>Definition:</b> Events.h:95</div></div>
 <div class="ttc" id="aclass_start_event_html"><div class="ttname"><a href="class_start_event.html">StartEvent</a></div><div class="ttdef"><b>Definition:</b> Events.h:24</div></div>
 <div class="ttc" id="aclass_display_event_html_ad227b7ba57936fbdcfd37ccf5ac5e856"><div class="ttname"><a href="class_display_event.html#ad227b7ba57936fbdcfd37ccf5ac5e856">DisplayEvent::p_lLcd</a></div><div class="ttdeci">LCD_HandleTypeDef p_lLcd</div><div class="ttdef"><b>Definition:</b> Events.h:48</div></div>
 <div class="ttc" id="aclass_test_event_l_e_d_html"><div class="ttname"><a href="class_test_event_l_e_d.html">TestEventLED</a></div><div class="ttdef"><b>Definition:</b> Events.h:57</div></div>
 <div class="ttc" id="a_enums_8h_html_aadcb6002d2b42fdfe01490f730ab00a6"><div class="ttname"><a href="_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a></div><div class="ttdeci">LED</div><div class="ttdef"><b>Definition:</b> Enums.h:11</div></div>
 <div class="ttc" id="a_enums_8h_html"><div class="ttname"><a href="_enums_8h.html">Enums.h</a></div></div>
-<div class="ttc" id="aclass_event_html_a1ada2392f0464ca56e26fa657ceca856"><div class="ttname"><a href="class_event.html#a1ada2392f0464ca56e26fa657ceca856">Event::handleEvent</a></div><div class="ttdeci">virtual void handleEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:17</div></div>
+<div class="ttc" id="aclass_event_html_a1ada2392f0464ca56e26fa657ceca856"><div class="ttname"><a href="class_event.html#a1ada2392f0464ca56e26fa657ceca856">Event::handleEvent</a></div><div class="ttdeci">virtual void handleEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:18</div></div>
 <div class="ttc" id="aclass_display_event_html"><div class="ttname"><a href="class_display_event.html">DisplayEvent</a></div><div class="ttdef"><b>Definition:</b> Events.h:45</div></div>
-<div class="ttc" id="aclass_event_html_a7704ec01ce91e673885792054214b3d2"><div class="ttname"><a href="class_event.html#a7704ec01ce91e673885792054214b3d2">Event::~Event</a></div><div class="ttdeci">virtual ~Event()</div><div class="ttdef"><b>Definition:</b> Events.cpp:19</div></div>
+<div class="ttc" id="aclass_event_html_a7704ec01ce91e673885792054214b3d2"><div class="ttname"><a href="class_event.html#a7704ec01ce91e673885792054214b3d2">Event::~Event</a></div><div class="ttdeci">virtual ~Event()</div><div class="ttdef"><b>Definition:</b> Events.cpp:20</div></div>
 <div class="ttc" id="aclass_display_event_html_a93980b835535ec7bbb0dc94c7f4e052f"><div class="ttname"><a href="class_display_event.html#a93980b835535ec7bbb0dc94c7f4e052f">DisplayEvent::p_sText</a></div><div class="ttdeci">std::string p_sText</div><div class="ttdef"><b>Definition:</b> Events.h:49</div></div>
-<div class="ttc" id="aclass_test_event_l_e_d_html_a1016a1a0f3de65641e2a12a9f34ed419"><div class="ttname"><a href="class_test_event_l_e_d.html#a1016a1a0f3de65641e2a12a9f34ed419">TestEventLED::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdef"><b>Definition:</b> Events.cpp:86</div></div>
+<div class="ttc" id="aclass_test_event_l_e_d_html_a1016a1a0f3de65641e2a12a9f34ed419"><div class="ttname"><a href="class_test_event_l_e_d.html#a1016a1a0f3de65641e2a12a9f34ed419">TestEventLED::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdoc">Verarbeitet den aktuellen LED-Zustand und aktualisiert die entsprechenden PWM-Werte.</div><div class="ttdef"><b>Definition:</b> Events.cpp:104</div></div>
 <div class="ttc" id="aclass_event_html"><div class="ttname"><a href="class_event.html">Event</a></div><div class="ttdef"><b>Definition:</b> Events.h:17</div></div>
-<div class="ttc" id="aclass_cancel_event_html_abf173121c4959f78b9157f714eae63c1"><div class="ttname"><a href="class_cancel_event.html#abf173121c4959f78b9157f714eae63c1">CancelEvent::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdef"><b>Definition:</b> Events.cpp:34</div></div>
+<div class="ttc" id="aclass_cancel_event_html_abf173121c4959f78b9157f714eae63c1"><div class="ttname"><a href="class_cancel_event.html#abf173121c4959f78b9157f714eae63c1">CancelEvent::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdef"><b>Definition:</b> Events.cpp:35</div></div>
 <div class="ttc" id="aclass_test_event_l_e_d_html_a202769352646bd062556d595c0df71ef"><div class="ttname"><a href="class_test_event_l_e_d.html#a202769352646bd062556d595c0df71ef">TestEventLED::p_tHtim</a></div><div class="ttdeci">TIM_HandleTypeDef p_tHtim</div><div class="ttdef"><b>Definition:</b> Events.h:60</div></div>
 <div class="ttc" id="alcd_8h_html"><div class="ttname"><a href="lcd_8h.html">lcd.h</a></div><div class="ttdoc">lcd.h enthält als Header-Datei von lcd.c die Deklarationen der Funktionen für das LCD Display</div></div>
-<div class="ttc" id="aclass_calculation_event_html_ab0be9ddfb18653bde25087467a28d100"><div class="ttname"><a href="class_calculation_event.html#ab0be9ddfb18653bde25087467a28d100">CalculationEvent::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdef"><b>Definition:</b> Events.cpp:119</div></div>
-<div class="ttc" id="aclass_show_results_event_html_a086031133ba7f40cca84c9363b5f08db"><div class="ttname"><a href="class_show_results_event.html#a086031133ba7f40cca84c9363b5f08db">ShowResultsEvent::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdef"><b>Definition:</b> Events.cpp:28</div></div>
-<div class="ttc" id="aclass_calculation_event_html_abd56a06d2ba11e8d2e152ee78b8b1c10"><div class="ttname"><a href="class_calculation_event.html#abd56a06d2ba11e8d2e152ee78b8b1c10">CalculationEvent::~CalculationEvent</a></div><div class="ttdeci">~CalculationEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:120</div></div>
-<div class="ttc" id="aclass_cancel_event_html_a1d23aff3f0f6c3996be2d655325635ec"><div class="ttname"><a href="class_cancel_event.html#a1d23aff3f0f6c3996be2d655325635ec">CancelEvent::~CancelEvent</a></div><div class="ttdeci">~CancelEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:35</div></div>
-<div class="ttc" id="aclass_test_event_l_e_d_html_a52cbfd9712da55eb793e1063b9f19f47"><div class="ttname"><a href="class_test_event_l_e_d.html#a52cbfd9712da55eb793e1063b9f19f47">TestEventLED::~TestEventLED</a></div><div class="ttdeci">~TestEventLED()</div><div class="ttdef"><b>Definition:</b> Events.cpp:101</div></div>
-<div class="ttc" id="aclass_test_event_green_blink_html_a697dcc11d564f752b53314f232335115"><div class="ttname"><a href="class_test_event_green_blink.html#a697dcc11d564f752b53314f232335115">TestEventGreenBlink::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdef"><b>Definition:</b> Events.cpp:103</div></div>
-<div class="ttc" id="aclass_start_measure_event_html_aa93459b48007094c6c201a2d6203efb7"><div class="ttname"><a href="class_start_measure_event.html#aa93459b48007094c6c201a2d6203efb7">StartMeasureEvent::~StartMeasureEvent</a></div><div class="ttdeci">~StartMeasureEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:117</div></div>
-<div class="ttc" id="aclass_display_event_html_a6e822d0805333ca203f52c1a7050c8d4"><div class="ttname"><a href="class_display_event.html#a6e822d0805333ca203f52c1a7050c8d4">DisplayEvent::DisplayEvent</a></div><div class="ttdeci">DisplayEvent(LCD_HandleTypeDef &amp;lcd, std::string text)</div><div class="ttdef"><b>Definition:</b> Events.cpp:37</div></div>
-<div class="ttc" id="aclass_test_event_green_blink_html_a1f4ac2a477daa6244687d3556bf9f95f"><div class="ttname"><a href="class_test_event_green_blink.html#a1f4ac2a477daa6244687d3556bf9f95f">TestEventGreenBlink::~TestEventGreenBlink</a></div><div class="ttdeci">~TestEventGreenBlink()</div><div class="ttdef"><b>Definition:</b> Events.cpp:110</div></div>
-<div class="ttc" id="aclass_start_measure_event_html_a69e19a3556694852ca39131919ab1eb6"><div class="ttname"><a href="class_start_measure_event.html#a69e19a3556694852ca39131919ab1eb6">StartMeasureEvent::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdef"><b>Definition:</b> Events.cpp:113</div></div>
-<div class="ttc" id="aclass_show_results_event_html_aca872553c2fff0ea900eca8db64aa5f5"><div class="ttname"><a href="class_show_results_event.html#aca872553c2fff0ea900eca8db64aa5f5">ShowResultsEvent::~ShowResultsEvent</a></div><div class="ttdeci">~ShowResultsEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:32</div></div>
-<div class="ttc" id="aclass_final_calculation_event_html_a7d5162501e9e613338ded5e0e28d9d15"><div class="ttname"><a href="class_final_calculation_event.html#a7d5162501e9e613338ded5e0e28d9d15">FinalCalculationEvent::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdef"><b>Definition:</b> Events.cpp:122</div></div>
-<div class="ttc" id="aclass_start_event_html_ab691beab27f33e95be2861d53f06fae6"><div class="ttname"><a href="class_start_event.html#ab691beab27f33e95be2861d53f06fae6">StartEvent::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdef"><b>Definition:</b> Events.cpp:21</div></div>
+<div class="ttc" id="aclass_calculation_event_html_ab0be9ddfb18653bde25087467a28d100"><div class="ttname"><a href="class_calculation_event.html#ab0be9ddfb18653bde25087467a28d100">CalculationEvent::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdef"><b>Definition:</b> Events.cpp:144</div></div>
+<div class="ttc" id="aclass_show_results_event_html_a086031133ba7f40cca84c9363b5f08db"><div class="ttname"><a href="class_show_results_event.html#a086031133ba7f40cca84c9363b5f08db">ShowResultsEvent::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdef"><b>Definition:</b> Events.cpp:29</div></div>
+<div class="ttc" id="aclass_calculation_event_html_abd56a06d2ba11e8d2e152ee78b8b1c10"><div class="ttname"><a href="class_calculation_event.html#abd56a06d2ba11e8d2e152ee78b8b1c10">CalculationEvent::~CalculationEvent</a></div><div class="ttdeci">~CalculationEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:145</div></div>
+<div class="ttc" id="aclass_cancel_event_html_a1d23aff3f0f6c3996be2d655325635ec"><div class="ttname"><a href="class_cancel_event.html#a1d23aff3f0f6c3996be2d655325635ec">CancelEvent::~CancelEvent</a></div><div class="ttdeci">~CancelEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:36</div></div>
+<div class="ttc" id="aclass_test_event_l_e_d_html_a52cbfd9712da55eb793e1063b9f19f47"><div class="ttname"><a href="class_test_event_l_e_d.html#a52cbfd9712da55eb793e1063b9f19f47">TestEventLED::~TestEventLED</a></div><div class="ttdeci">~TestEventLED()</div><div class="ttdef"><b>Definition:</b> Events.cpp:123</div></div>
+<div class="ttc" id="aclass_start_measure_event_html_aa93459b48007094c6c201a2d6203efb7"><div class="ttname"><a href="class_start_measure_event.html#aa93459b48007094c6c201a2d6203efb7">StartMeasureEvent::~StartMeasureEvent</a></div><div class="ttdeci">~StartMeasureEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:142</div></div>
+<div class="ttc" id="aclass_display_event_html_a6e822d0805333ca203f52c1a7050c8d4"><div class="ttname"><a href="class_display_event.html#a6e822d0805333ca203f52c1a7050c8d4">DisplayEvent::DisplayEvent</a></div><div class="ttdeci">DisplayEvent(LCD_HandleTypeDef &amp;lcd, std::string text)</div><div class="ttdef"><b>Definition:</b> Events.cpp:38</div></div>
+<div class="ttc" id="aclass_start_measure_event_html_a69e19a3556694852ca39131919ab1eb6"><div class="ttname"><a href="class_start_measure_event.html#a69e19a3556694852ca39131919ab1eb6">StartMeasureEvent::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdef"><b>Definition:</b> Events.cpp:138</div></div>
+<div class="ttc" id="aclass_show_results_event_html_aca872553c2fff0ea900eca8db64aa5f5"><div class="ttname"><a href="class_show_results_event.html#aca872553c2fff0ea900eca8db64aa5f5">ShowResultsEvent::~ShowResultsEvent</a></div><div class="ttdeci">~ShowResultsEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:33</div></div>
+<div class="ttc" id="aclass_final_calculation_event_html_a7d5162501e9e613338ded5e0e28d9d15"><div class="ttname"><a href="class_final_calculation_event.html#a7d5162501e9e613338ded5e0e28d9d15">FinalCalculationEvent::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdef"><b>Definition:</b> Events.cpp:147</div></div>
+<div class="ttc" id="aclass_start_event_html_ab691beab27f33e95be2861d53f06fae6"><div class="ttname"><a href="class_start_event.html#ab691beab27f33e95be2861d53f06fae6">StartEvent::handleEvent</a></div><div class="ttdeci">void handleEvent() override</div><div class="ttdef"><b>Definition:</b> Events.cpp:22</div></div>
 <div class="ttc" id="astruct_t_i_m___handle_type_def_html"><div class="ttname"><a href="struct_t_i_m___handle_type_def.html">TIM_HandleTypeDef</a></div><div class="ttdoc">TIM Time Base Handle Structure definition.</div><div class="ttdef"><b>Definition:</b> stm32f4xx_hal_tim.h:337</div></div>
 <div class="ttc" id="aclass_test_event_l_e_d_html_a36cf4f09a2b131cd93b551b8410b4993"><div class="ttname"><a href="class_test_event_l_e_d.html#a36cf4f09a2b131cd93b551b8410b4993">TestEventLED::p_lLED</a></div><div class="ttdeci">LED p_lLED</div><div class="ttdef"><b>Definition:</b> Events.h:61</div></div>
-<div class="ttc" id="aclass_test_event_l_e_d_html_aaea9ba10faf97f2a1883d150cb2b9043"><div class="ttname"><a href="class_test_event_l_e_d.html#aaea9ba10faf97f2a1883d150cb2b9043">TestEventLED::TestEventLED</a></div><div class="ttdeci">TestEventLED(TIM_HandleTypeDef &amp;htim, LED led)</div><div class="ttdef"><b>Definition:</b> Events.cpp:84</div></div>
-<div class="ttc" id="aclass_display_event_html_ac2fad79424161f00392c4c70700a8c6b"><div class="ttname"><a href="class_display_event.html#ac2fad79424161f00392c4c70700a8c6b">DisplayEvent::~DisplayEvent</a></div><div class="ttdeci">~DisplayEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:82</div></div>
-<div class="ttc" id="aclass_final_calculation_event_html_a13f031d7c972f197cc14cce5f56d7995"><div class="ttname"><a href="class_final_calculation_event.html#a13f031d7c972f197cc14cce5f56d7995">FinalCalculationEvent::~FinalCalculationEvent</a></div><div class="ttdeci">~FinalCalculationEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:123</div></div>
-<div class="ttc" id="aclass_start_event_html_a4cf65f1953ff67dd2b877a6dca1eee35"><div class="ttname"><a href="class_start_event.html#a4cf65f1953ff67dd2b877a6dca1eee35">StartEvent::~StartEvent</a></div><div class="ttdeci">~StartEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:26</div></div>
+<div class="ttc" id="aclass_test_event_l_e_d_html_aaea9ba10faf97f2a1883d150cb2b9043"><div class="ttname"><a href="class_test_event_l_e_d.html#aaea9ba10faf97f2a1883d150cb2b9043">TestEventLED::TestEventLED</a></div><div class="ttdeci">TestEventLED(TIM_HandleTypeDef &amp;htim, LED led)</div><div class="ttdef"><b>Definition:</b> Events.cpp:85</div></div>
+<div class="ttc" id="aclass_display_event_html_ac2fad79424161f00392c4c70700a8c6b"><div class="ttname"><a href="class_display_event.html#ac2fad79424161f00392c4c70700a8c6b">DisplayEvent::~DisplayEvent</a></div><div class="ttdeci">~DisplayEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:83</div></div>
+<div class="ttc" id="aclass_final_calculation_event_html_a13f031d7c972f197cc14cce5f56d7995"><div class="ttname"><a href="class_final_calculation_event.html#a13f031d7c972f197cc14cce5f56d7995">FinalCalculationEvent::~FinalCalculationEvent</a></div><div class="ttdeci">~FinalCalculationEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:148</div></div>
+<div class="ttc" id="aclass_start_event_html_a4cf65f1953ff67dd2b877a6dca1eee35"><div class="ttname"><a href="class_start_event.html#a4cf65f1953ff67dd2b877a6dca1eee35">StartEvent::~StartEvent</a></div><div class="ttdeci">~StartEvent()</div><div class="ttdef"><b>Definition:</b> Events.cpp:27</div></div>
 <div class="ttc" id="aclass_cancel_event_html"><div class="ttname"><a href="class_cancel_event.html">CancelEvent</a></div><div class="ttdef"><b>Definition:</b> Events.h:38</div></div>
-<div class="ttc" id="aclass_calculation_event_html"><div class="ttname"><a href="class_calculation_event.html">CalculationEvent</a></div><div class="ttdef"><b>Definition:</b> Events.h:85</div></div>
+<div class="ttc" id="aclass_calculation_event_html"><div class="ttname"><a href="class_calculation_event.html">CalculationEvent</a></div><div class="ttdef"><b>Definition:</b> Events.h:88</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

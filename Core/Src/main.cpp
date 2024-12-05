@@ -118,6 +118,14 @@ void clearQueue()
 
 // UPDATE: Interrupt fürs Blinken
 // Wenn LED leuchtet (pwmValue = 255) -> ausschalten, wenn nicht (pwmValue = 0) -> einschalten
+/**
+ * @brief Interrukt fürs Blinken
+ * @details
+ * - Beim pwmValue = 255 -> LED wird ausgeschaltet
+ * - Beim pwmValue = 0 -> LED wird angeschaltet
+ *
+ * @param htim
+ */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if (htim == &htim3)

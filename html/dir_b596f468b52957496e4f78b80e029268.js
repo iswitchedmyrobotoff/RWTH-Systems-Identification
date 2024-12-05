@@ -11,12 +11,11 @@ var dir_b596f468b52957496e4f78b80e029268 =
       [ "CancelEvent", "class_cancel_event.html", "class_cancel_event" ],
       [ "DisplayEvent", "class_display_event.html", "class_display_event" ],
       [ "TestEventLED", "class_test_event_l_e_d.html", "class_test_event_l_e_d" ],
-      [ "TestEventGreenBlink", "class_test_event_green_blink.html", "class_test_event_green_blink" ],
       [ "StartMeasureEvent", "class_start_measure_event.html", "class_start_measure_event" ],
       [ "CalculationEvent", "class_calculation_event.html", "class_calculation_event" ],
       [ "FinalCalculationEvent", "class_final_calculation_event.html", "class_final_calculation_event" ]
     ] ],
-    [ "main.c", "main_8c.html", null ],
+    [ "main.c", "main_8c.html", "main_8c" ],
     [ "main.cpp", "main_8cpp.html", "main_8cpp" ],
     [ "StartMeasureEvent.h", "_start_measure_event_8h.html", [
       [ "StartMeasureEvent", "class_start_measure_event.html", "class_start_measure_event" ]

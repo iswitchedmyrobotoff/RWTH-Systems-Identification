@@ -84,6 +84,23 @@ DisplayEvent::~DisplayEvent() {}
 
 TestEventLED::TestEventLED(TIM_HandleTypeDef& htim, LED led): p_tHtim(htim), p_lLED(led) {}
 
+
+/**
+ * @brief Verarbeitet den aktuellen LED-Zustand und aktualisiert die entsprechenden PWM-Werte.
+ *
+ * Diese Funktion passt die RGB-Kanäle einer LED basierend auf dem Zustand `p_lLED` an.
+ * Zusätzlich wird ein Timer für den Blinkmodus gestartet oder gestoppt, falls erforderlich.
+ *
+ * @details
+ * - Setzt die PWM-Werte für die Farbkanäle Rot, Grün und Blau entsprechend des ausgewählten LED-Zustands.
+ * - Falls der LED-Zustand `BLINKING` ist, wird ein Timer-Interrupt gestartet, um die Blinkfunktion zu aktivieren.
+ * - Für andere Zustände wird sichergestellt, dass der Timer deaktiviert ist.
+ *
+ * @note Der LED-Zustand (`p_lLED`) muss einer der vordefinierten Zustände sein: `RED`, `GREEN`, `BLUE`, `BLINKING`.
+ *
+ * @param Keine
+ * @retval Keine
+ */
 void TestEventLED::handleEvent()
 {
 	int red = 0;

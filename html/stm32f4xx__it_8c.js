@@ -9,7 +9,9 @@ var stm32f4xx__it_8c =
     [ "PendSV_Handler", "stm32f4xx__it_8c.html#a6303e1f258cbdc1f970ce579cc015623", null ],
     [ "SVC_Handler", "stm32f4xx__it_8c.html#a3e5ddb3df0d62f2dc357e64a3f04a6ce", null ],
     [ "SysTick_Handler", "stm32f4xx__it_8c.html#ab5e09814056d617c521549e542639b7e", null ],
+    [ "TIM3_IRQHandler", "stm32f4xx__it_8c.html#ac8e51d2183b5230cbd5481f8867adce9", null ],
     [ "TIM4_IRQHandler", "stm32f4xx__it_8c.html#a7133f3f78767503641d307386e68bd28", null ],
     [ "UsageFault_Handler", "stm32f4xx__it_8c.html#a1d98923de2ed6b7309b66f9ba2971647", null ],
+    [ "htim3", "stm32f4xx__it_8c.html#aac3d2c59ee0e3bbae1b99529a154eb62", null ],
     [ "htim4", "stm32f4xx__it_8c.html#a85788cec5a97ee377e4ee2e74f026484", null ]
 ];

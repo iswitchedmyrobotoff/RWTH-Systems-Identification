@@ -36,7 +36,6 @@ var hierarchy =
       [ "StartEvent", "class_start_event.html", null ],
       [ "StartMeasureEvent", "class_start_measure_event.html", null ],
       [ "StartMeasureEvent", "class_start_measure_event.html", null ],
-      [ "TestEventGreenBlink", "class_test_event_green_blink.html", null ],
       [ "TestEventLED", "class_test_event_l_e_d.html", null ]
     ] ],
     [ "EWIC_Type", "struct_e_w_i_c___type.html", null ],

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.16"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Projektdokumentation_V1.0_MB: TestEventLED Class Reference</title>
+<title>RWTH_Project_IC: TestEventLED Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -29,7 +29,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Projektdokumentation_V1.0_MB
+   <div id="projectname">RWTH_Project_IC
+   &#160;<span id="projectnumber">v1.8</span>
    </div>
   </td>
  </tr>
@@ -110,6 +111,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aaea9ba10faf97f2a1883d150cb2b9043"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_test_event_l_e_d.html#aaea9ba10faf97f2a1883d150cb2b9043">TestEventLED</a> (<a class="el" href="struct_t_i_m___handle_type_def.html">TIM_HandleTypeDef</a> &amp;htim, <a class="el" href="_enums_8h.html#aadcb6002d2b42fdfe01490f730ab00a6">LED</a> led)</td></tr>
 <tr class="separator:aaea9ba10faf97f2a1883d150cb2b9043"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1016a1a0f3de65641e2a12a9f34ed419"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_test_event_l_e_d.html#a1016a1a0f3de65641e2a12a9f34ed419">handleEvent</a> () override</td></tr>
+<tr class="memdesc:a1016a1a0f3de65641e2a12a9f34ed419"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verarbeitet den aktuellen LED-Zustand und aktualisiert die entsprechenden PWM-Werte.  <a href="class_test_event_l_e_d.html#a1016a1a0f3de65641e2a12a9f34ed419">More...</a><br /></td></tr>
 <tr class="separator:a1016a1a0f3de65641e2a12a9f34ed419"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52cbfd9712da55eb793e1063b9f19f47"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_test_event_l_e_d.html#a52cbfd9712da55eb793e1063b9f19f47">~TestEventLED</a> ()</td></tr>
 <tr class="separator:a52cbfd9712da55eb793e1063b9f19f47"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -193,6 +195,27 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Verarbeitet den aktuellen LED-Zustand und aktualisiert die entsprechenden PWM-Werte. </p>
+<p>Diese Funktion passt die RGB-Kanäle einer LED basierend auf dem Zustand <code>p_lLED</code> an. Zusätzlich wird ein Timer für den Blinkmodus gestartet oder gestoppt, falls erforderlich.</p>
+<ul>
+<li>Setzt die PWM-Werte für die Farbkanäle Rot, Grün und Blau entsprechend des ausgewählten LED-Zustands.</li>
+<li>Falls der LED-Zustand <code>BLINKING</code> ist, wird ein Timer-Interrupt gestartet, um die Blinkfunktion zu aktivieren.</li>
+<li>Für andere Zustände wird sichergestellt, dass der Timer deaktiviert ist.</li>
+</ul>
+<dl class="section note"><dt>Note</dt><dd>Der LED-Zustand (<code>p_lLED</code>) muss einer der vordefinierten Zustände sein: <code>RED</code>, <code>GREEN</code>, <code>BLUE</code>, <code>BLINKING</code>.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Keine</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Keine</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Reimplemented from <a class="el" href="class_event.html#a1ada2392f0464ca56e26fa657ceca856">Event</a>.</p>
 

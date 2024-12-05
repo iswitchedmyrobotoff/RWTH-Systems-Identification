@@ -84,7 +84,6 @@ var annotated_dup =
     [ "STL_Type", "struct_s_t_l___type.html", "struct_s_t_l___type" ],
     [ "SYSCFG_TypeDef", "struct_s_y_s_c_f_g___type_def.html", "struct_s_y_s_c_f_g___type_def" ],
     [ "SysTick_Type", "struct_sys_tick___type.html", "struct_sys_tick___type" ],
-    [ "TestEventGreenBlink", "class_test_event_green_blink.html", "class_test_event_green_blink" ],
     [ "TestEventLED", "class_test_event_l_e_d.html", "class_test_event_l_e_d" ],
     [ "TIM_Base_InitTypeDef", "struct_t_i_m___base___init_type_def.html", "struct_t_i_m___base___init_type_def" ],
     [ "TIM_BreakDeadTimeConfigTypeDef", "struct_t_i_m___break_dead_time_config_type_def.html", "struct_t_i_m___break_dead_time_config_type_def" ],
