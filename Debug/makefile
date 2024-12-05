@@ -59,34 +59,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := test
+BUILD_ARTIFACT_NAME := RWTH_Project_IC
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-test.elf \
+RWTH_Project_IC.elf \
 
 MAP_FILES += \
-test.map \
+RWTH_Project_IC.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-test.list \
+RWTH_Project_IC.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: test.elf secondary-outputs
+main-build: RWTH_Project_IC.elf secondary-outputs
 
 # Tool invocations
-test.elf test.map: $(OBJS) $(USER_OBJS) C:\Users\ceyda\STM32CubeIDE\workspace_1.16.1\test\STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "test.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\ceyda\STM32CubeIDE\workspace_1.16.1\test\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="test.map" -Wl,--gc-sections -static --specs=standard_c_nano_cpp.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+RWTH_Project_IC.elf RWTH_Project_IC.map: $(OBJS) $(USER_OBJS) C:\Users\morit\STM32CubeIDE\workspace_1.16.1\RWTH_Project_IC\STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "RWTH_Project_IC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\morit\STM32CubeIDE\workspace_1.16.1\RWTH_Project_IC\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RWTH_Project_IC.map" -Wl,--gc-sections -static -u _printf_float  -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -95,14 +95,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-test.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "test.list"
+RWTH_Project_IC.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "RWTH_Project_IC.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) default.size.stdout test.elf test.list test.map
+	-$(RM) RWTH_Project_IC.elf RWTH_Project_IC.list RWTH_Project_IC.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

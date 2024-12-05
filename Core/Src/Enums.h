@@ -11,7 +11,8 @@ typedef enum {
 typedef enum {
     RED,
     GREEN,
-    BLUE
+    BLUE,
+    BLINKING // UPDATE
 } LED;
 
 #endif
