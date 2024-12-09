@@ -131,7 +131,6 @@ var menudata={children:[
 {text:"t",url:"globals_func_t.html#index_t"},
 {text:"u",url:"globals_func_u.html#index_u"}]},
 {text:"Variables",url:"globals_vars.html",children:[
-{text:"_",url:"globals_vars.html#index__5F"},
 {text:"a",url:"globals_vars.html#index_a"},
 {text:"b",url:"globals_vars.html#index_b"},
 {text:"c",url:"globals_vars.html#index_c"},

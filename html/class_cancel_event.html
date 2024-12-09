@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">RWTH_Project_IC
-   &#160;<span id="projectnumber">v1.8</span>
+   &#160;<span id="projectnumber">v1.9</span>
    </div>
   </td>
  </tr>
@@ -108,6 +108,7 @@ Inheritance diagram for CancelEvent:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:abf173121c4959f78b9157f714eae63c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cancel_event.html#abf173121c4959f78b9157f714eae63c1">handleEvent</a> () override</td></tr>
+<tr class="memdesc:abf173121c4959f78b9157f714eae63c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Führt einen Verzögerungsvorgang aus.  <a href="class_cancel_event.html#abf173121c4959f78b9157f714eae63c1">More...</a><br /></td></tr>
 <tr class="separator:abf173121c4959f78b9157f714eae63c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d23aff3f0f6c3996be2d655325635ec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cancel_event.html#a1d23aff3f0f6c3996be2d655325635ec">~CancelEvent</a> ()</td></tr>
 <tr class="separator:a1d23aff3f0f6c3996be2d655325635ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,6 +157,10 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Führt einen Verzögerungsvorgang aus. </p>
+<p>Diese Methode blockiert für eine definierte Dauer (2500 ms) durch eine Schleife mit kurzen Verzögerungen. Sie dient dazu, eine Unterbrechung oder Wartezeit zwischen Aktionen zu simulieren.</p>
+<dl class="section note"><dt>Note</dt><dd>Die Methode verwendet <a class="el" href="group___h_a_l___exported___functions___group2.html#gab1dc1e6b438daacfe38a312a90221330" title="This function provides minimum delay (in milliseconds) based on variable incremented.">HAL_Delay()</a> für die Verzögerung. </dd></dl>
 
 <p>Reimplemented from <a class="el" href="class_event.html#a1ada2392f0464ca56e26fa657ceca856">Event</a>.</p>
 

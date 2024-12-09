@@ -17,7 +17,9 @@ extern volatile uint8_t buttonPressed; // UPDATE
 void Event::handleEvent(){}
 Event::~Event(){}
 
-
+/**
+ * @brief Startevent, bei welchem am Anfang ein IDLE-state ausgeführt wird.
+ */
 void StartEvent::handleEvent()
 {
 	currentState = IDLE;
@@ -28,6 +30,15 @@ StartEvent::~StartEvent() {}
 
 // UPDATE: Warteprozess
 // Zu Anfang buttonPressed = 0. Die Schleife wird abgebrochen, wenn buttonPressed = 1
+/**
+ * @brief Zeigt Ergebnisse an und wartet auf Benutzereingabe zum Fortfahren.
+ *
+ * Setzt den aktuellen Zustand auf `SHOW_RESULTS` und blockiert für maximal 2500 ms,
+ * während auf eine Benutzereingabe gewartet wird. Die Schleife wird abgebrochen,
+ * sobald die Variable `buttonPressed` auf `1` gesetzt wird.
+ *
+ * @note Die Methode dient dazu, eine Pause einzulegen, bis der Benutzer interagiert.
+ */
 void ShowResultsEvent::handleEvent()
 {
   currentState = SHOW_RESULTS;
@@ -46,6 +57,16 @@ ShowResultsEvent::~ShowResultsEvent(){}
 
 
 // UPDATE: Warteprozess (nur zum Beobachten, wird später gelöscht)
+/**
+ * @brief
+ * Führt einen Verzögerungsvorgang aus.
+ *
+ * Diese Methode blockiert für eine definierte Dauer (2500 ms) durch eine Schleife
+ * mit kurzen Verzögerungen. Sie dient dazu, eine Unterbrechung oder Wartezeit
+ * zwischen Aktionen zu simulieren.
+ *
+ * @note Die Methode verwendet HAL_Delay() für die Verzögerung.
+ */
 void CancelEvent::handleEvent()
 {
   for (int i = 0; i < 2500; i++)
@@ -151,6 +172,15 @@ StartMeasureEvent::~StartMeasureEvent() {}
 
 // UPDATE: Warteprozess
 // Zu Anfang buttonPressed = 0. Die Schleife wird abgebrochen, wenn buttonPressed = 1
+/**
+ * @brief Führt eine Berechnungsverzögerung aus, die durch Benutzereingaben abgebrochen werden kann.
+ *
+ * Diese Methode blockiert für maximal 2500 ms durch kurze Verzögerungen, kann jedoch
+ * vorzeitig beendet werden, wenn die Variable `buttonPressed` auf `1` gesetzt wird.
+ * Sie ermöglicht eine Wartezeit, die auf Benutzereingaben reagiert.
+ *
+ * @note Die Schleife überprüft in regelmäßigen Abständen den Status von `buttonPressed`.
+ */
 void CalculationEvent::handleEvent()
 {
   buttonPressed = 0;
