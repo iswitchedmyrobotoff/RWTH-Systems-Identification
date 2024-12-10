@@ -15,7 +15,6 @@ var dir_b596f468b52957496e4f78b80e029268 =
       [ "CalculationEvent", "class_calculation_event.html", "class_calculation_event" ],
       [ "FinalCalculationEvent", "class_final_calculation_event.html", "class_final_calculation_event" ]
     ] ],
-    [ "main.c", "main_8c.html", "main_8c" ],
     [ "main.cpp", "main_8cpp.html", "main_8cpp" ],
     [ "StartMeasureEvent.h", "_start_measure_event_8h.html", [
       [ "StartMeasureEvent", "class_start_measure_event.html", "class_start_measure_event" ]

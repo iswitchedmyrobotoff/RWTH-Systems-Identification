@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">RWTH_Project_IC
-   &#160;<span id="projectnumber">v1.8</span>
+   &#160;<span id="projectnumber">v1.9</span>
    </div>
   </td>
  </tr>
@@ -108,6 +108,7 @@ Inheritance diagram for CalculationEvent:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab0be9ddfb18653bde25087467a28d100"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_calculation_event.html#ab0be9ddfb18653bde25087467a28d100">handleEvent</a> () override</td></tr>
+<tr class="memdesc:ab0be9ddfb18653bde25087467a28d100"><td class="mdescLeft">&#160;</td><td class="mdescRight">Führt eine Berechnungsverzögerung aus, die durch Benutzereingaben abgebrochen werden kann.  <a href="class_calculation_event.html#ab0be9ddfb18653bde25087467a28d100">More...</a><br /></td></tr>
 <tr class="separator:ab0be9ddfb18653bde25087467a28d100"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd56a06d2ba11e8d2e152ee78b8b1c10"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_calculation_event.html#abd56a06d2ba11e8d2e152ee78b8b1c10">~CalculationEvent</a> ()</td></tr>
 <tr class="separator:abd56a06d2ba11e8d2e152ee78b8b1c10"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,6 +157,10 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Führt eine Berechnungsverzögerung aus, die durch Benutzereingaben abgebrochen werden kann. </p>
+<p>Diese Methode blockiert für maximal 2500 ms durch kurze Verzögerungen, kann jedoch vorzeitig beendet werden, wenn die Variable <code>buttonPressed</code> auf <code>1</code> gesetzt wird. Sie ermöglicht eine Wartezeit, die auf Benutzereingaben reagiert.</p>
+<dl class="section note"><dt>Note</dt><dd>Die Schleife überprüft in regelmäßigen Abständen den Status von <code>buttonPressed</code>. </dd></dl>
 
 <p>Reimplemented from <a class="el" href="class_event.html#a1ada2392f0464ca56e26fa657ceca856">Event</a>.</p>
 

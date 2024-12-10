@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">RWTH_Project_IC
-   &#160;<span id="projectnumber">v1.8</span>
+   &#160;<span id="projectnumber">v1.9</span>
    </div>
   </td>
  </tr>
@@ -108,6 +108,7 @@ Inheritance diagram for ShowResultsEvent:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a086031133ba7f40cca84c9363b5f08db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_show_results_event.html#a086031133ba7f40cca84c9363b5f08db">handleEvent</a> () override</td></tr>
+<tr class="memdesc:a086031133ba7f40cca84c9363b5f08db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zeigt Ergebnisse an und wartet auf Benutzereingabe zum Fortfahren.  <a href="class_show_results_event.html#a086031133ba7f40cca84c9363b5f08db">More...</a><br /></td></tr>
 <tr class="separator:a086031133ba7f40cca84c9363b5f08db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca872553c2fff0ea900eca8db64aa5f5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_show_results_event.html#aca872553c2fff0ea900eca8db64aa5f5">~ShowResultsEvent</a> ()</td></tr>
 <tr class="separator:aca872553c2fff0ea900eca8db64aa5f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,6 +157,10 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Zeigt Ergebnisse an und wartet auf Benutzereingabe zum Fortfahren. </p>
+<p>Setzt den aktuellen Zustand auf <code>SHOW_RESULTS</code> und blockiert für maximal 2500 ms, während auf eine Benutzereingabe gewartet wird. Die Schleife wird abgebrochen, sobald die Variable <code>buttonPressed</code> auf <code>1</code> gesetzt wird.</p>
+<dl class="section note"><dt>Note</dt><dd>Die Methode dient dazu, eine Pause einzulegen, bis der Benutzer interagiert. </dd></dl>
 
 <p>Reimplemented from <a class="el" href="class_event.html#a1ada2392f0464ca56e26fa657ceca856">Event</a>.</p>
 

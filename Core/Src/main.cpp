@@ -69,7 +69,7 @@ ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptor
 
 ETH_HandleTypeDef heth;
 
-TIM_HandleTypeDef htim3; // UPDATE: Interrupt fürs Blinken
+TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
 
 I2C_HandleTypeDef hi2c2;
@@ -80,14 +80,15 @@ PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
 /* USER CODE BEGIN PV */
 
-State currentState = IDLE;
-uint32_t currentTime;
-uint32_t lastButtonPressTime;
-uint32_t buttonPressCount;
 LCD_HandleTypeDef lcd;
+
+volatile State currentState = IDLE;
+volatile uint32_t currentTime;
+volatile uint32_t lastButtonPressTime;
+volatile uint8_t buttonPressed = 0; // UPDATE
+
 //! Hier wird ein Objekt event_queue erstellt
 std::queue<std::unique_ptr<Event>> event_queue;
-
 
 /* USER CODE END PV */
 
@@ -98,7 +99,7 @@ static void MX_ETH_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
 static void MX_I2C2_Init(void);
-static void MX_TIM3_Init(void); // UPDATE: Interrupt fürs Blinken
+static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
 
 /* USER CODE BEGIN PFP */
@@ -108,18 +109,17 @@ static void MX_TIM4_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+/**
+ * @brief Löscht alle Elemente aus der Warteschlange.
+ */
 void clearQueue()
 {
-    while (!event_queue.empty())
-    {
-        event_queue.pop();
-    }
+  while (!event_queue.empty()){event_queue.pop();}
 }
 
-// UPDATE: Interrupt fürs Blinken
-// Wenn LED leuchtet (pwmValue = 255) -> ausschalten, wenn nicht (pwmValue = 0) -> einschalten
+
 /**
- * @brief Interrukt fürs Blinken
+ * @brief Interrupt fürs Blinken
  * @details
  * - Beim pwmValue = 255 -> LED wird ausgeschaltet
  * - Beim pwmValue = 0 -> LED wird angeschaltet
@@ -128,14 +128,15 @@ void clearQueue()
  */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	if (htim == &htim3)
-	{
-		uint32_t pwmValue = __HAL_TIM_GET_COMPARE(&htim4, TIM_CHANNEL_3);
-		if (pwmValue == 255){pwmValue = 0;}
-		else if (pwmValue == 0){pwmValue = 255;}
-		__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, pwmValue);
-	}
+  if (htim == &htim3)
+  {
+	uint32_t pwmValue = __HAL_TIM_GET_COMPARE(&htim4, TIM_CHANNEL_3);
+	if (pwmValue == 255){pwmValue = 0;}
+	else if (pwmValue == 0){pwmValue = 255;}
+	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, pwmValue);
+  }
 }
+
 
 /**
  * @brief HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) ist ein interrupt, welcher den Operierenden Betrieb enthält.
@@ -152,8 +153,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
  */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	//! Hier ist die printf Funktion zum Überprüfen der Konvertierung
-	printf("%f", 1.2345);
+  //! Hier ist die printf Funktion zum Überprüfen der Konvertierung
+  printf("%f", 1.2345);
   if (GPIO_Pin == GPIO_PIN_BUTTON)
   {
     currentTime = HAL_GetTick();
@@ -162,35 +163,34 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
       if (currentState == IDLE)
       {
         currentState = OPERATING;
-        event_queue.push(std::make_unique<TestEventLED>(htim4, BLINKING)); // UPDATE
-        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Operating..."));
+        event_queue.push(std::make_unique<TestEventLED>(htim4, BLINKING));
+        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Calculating the time constant..."));
         event_queue.push(std::make_unique<StartMeasureEvent>());
         event_queue.push(std::make_unique<CalculationEvent>());
         event_queue.push(std::make_unique<FinalCalculationEvent>());
-        event_queue.push(std::make_unique<ShowResultsEvent>());
         event_queue.push(std::make_unique<TestEventLED>(htim4, BLUE));
         event_queue.push(std::make_unique<DisplayEvent>(lcd, "Results:"));
+        event_queue.push(std::make_unique<ShowResultsEvent>());
         event_queue.push(std::make_unique<StartEvent>());
         event_queue.push(std::make_unique<TestEventLED>(htim4, GREEN));
-        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Ready to receive input."));
+        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Press the button to start."));
       }
       else if (currentState == OPERATING || currentState == SHOW_RESULTS)
       {
+        buttonPressed = 1; // UPDATE: wird aktualisiert, wenn der Knopf gedrückt wird
         currentState = CLEANING_UP;
         clearQueue();
         event_queue.push(std::make_unique<TestEventLED>(htim4, RED));
-        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Cancelled. Cleaning up."));
+        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Operation is aborted."));
         event_queue.push(std::make_unique<CancelEvent>());
         event_queue.push(std::make_unique<StartEvent>());
         event_queue.push(std::make_unique<TestEventLED>(htim4, GREEN));
-        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Ready to receive input."));
+        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Press the button to start."));
       }
-
       lastButtonPressTime = currentTime;
     }
   }
 }
-
 
 /* USER CODE END 0 */
 
@@ -230,8 +230,9 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
   MX_I2C2_Init();
-  MX_TIM3_Init(); // UPDATE: Interrupt fürs Blinken
+  MX_TIM3_Init();
   MX_TIM4_Init();
+
   /* USER CODE BEGIN 2 */
 
 /**
@@ -271,7 +272,7 @@ int main(void)
 
   event_queue.push(std::make_unique<StartEvent>());
   event_queue.push(std::make_unique<TestEventLED>(htim4, GREEN));
-  event_queue.push(std::make_unique<DisplayEvent>(lcd, "Ready to receive input."));
+  event_queue.push(std::make_unique<DisplayEvent>(lcd, "Press the button to start."));
 
   //!@}
 
@@ -291,7 +292,6 @@ int main(void)
    */
   while (1)
   {
-
 	if(!event_queue.empty())
 	{
 	  std::unique_ptr<Event> e = std::move(event_queue.front());
@@ -300,7 +300,7 @@ int main(void)
 
 	  e->handleEvent();
     }
-	HAL_Delay(500);
+//	HAL_Delay(500); UPDATE: momentan nicht nötig
 
 
 /** @} *///Ende des Abschnitt der while-Schleife
@@ -445,7 +445,6 @@ static void MX_I2C2_Init(void)
   /* USER CODE END I2C2_Init 2 */
 }
 
-// UPDATE: Interrupt fürs Blinken
 /**
   * @brief TIM3 Initialization Function
   * @param None
