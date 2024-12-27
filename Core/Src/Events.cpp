@@ -11,7 +11,7 @@ extern "C"
 }
 extern TIM_HandleTypeDef htim3;
 extern volatile State currentState;
-extern volatile uint8_t buttonPressed; // UPDATE
+extern volatile uint8_t buttonPressed;
 
 
 void Event::handleEvent(){}
@@ -28,8 +28,6 @@ void StartEvent::handleEvent()
 StartEvent::~StartEvent() {}
 
 
-// UPDATE: Warteprozess
-// Zu Anfang buttonPressed = 0. Die Schleife wird abgebrochen, wenn buttonPressed = 1
 /**
  * @brief Zeigt Ergebnisse an und wartet auf Benutzereingabe zum Fortfahren.
  *
@@ -56,7 +54,6 @@ void ShowResultsEvent::handleEvent()
 ShowResultsEvent::~ShowResultsEvent(){}
 
 
-// UPDATE: Warteprozess (nur zum Beobachten, wird später gelöscht)
 /**
  * @brief
  * Führt einen Verzögerungsvorgang aus.
@@ -170,8 +167,6 @@ void StartMeasureEvent::handleEvent(){}
 StartMeasureEvent::~StartMeasureEvent() {}
 
 
-// UPDATE: Warteprozess
-// Zu Anfang buttonPressed = 0. Die Schleife wird abgebrochen, wenn buttonPressed = 1
 /**
  * @brief Führt eine Berechnungsverzögerung aus, die durch Benutzereingaben abgebrochen werden kann.
  *

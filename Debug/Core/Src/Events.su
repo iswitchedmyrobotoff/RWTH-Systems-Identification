@@ -5,30 +5,30 @@ C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/Events.cpp:23:6:virtual void StartEvent::handleEvent()	16	static
 ../Core/Src/Events.cpp:28:1:StartEvent::~StartEvent()	16	static
 ../Core/Src/Events.cpp:28:1:virtual StartEvent::~StartEvent()	16	static
-../Core/Src/Events.cpp:42:6:virtual void ShowResultsEvent::handleEvent()	24	static
-../Core/Src/Events.cpp:56:1:ShowResultsEvent::~ShowResultsEvent()	16	static
-../Core/Src/Events.cpp:56:1:virtual ShowResultsEvent::~ShowResultsEvent()	16	static
-../Core/Src/Events.cpp:70:6:virtual void CancelEvent::handleEvent()	24	static
-../Core/Src/Events.cpp:78:1:CancelEvent::~CancelEvent()	16	static
-../Core/Src/Events.cpp:78:1:virtual CancelEvent::~CancelEvent()	16	static
+../Core/Src/Events.cpp:40:6:virtual void ShowResultsEvent::handleEvent()	24	static
+../Core/Src/Events.cpp:54:1:ShowResultsEvent::~ShowResultsEvent()	16	static
+../Core/Src/Events.cpp:54:1:virtual ShowResultsEvent::~ShowResultsEvent()	16	static
+../Core/Src/Events.cpp:67:6:virtual void CancelEvent::handleEvent()	24	static
+../Core/Src/Events.cpp:75:1:CancelEvent::~CancelEvent()	16	static
+../Core/Src/Events.cpp:75:1:virtual CancelEvent::~CancelEvent()	16	static
 ../Core/Src/Events.h:17:7:constexpr Event::Event()	16	static
-../Core/Src/Events.cpp:81:1:DisplayEvent::DisplayEvent(LCD_HandleTypeDef&, std::string)	24	static
-../Core/Src/Events.cpp:98:6:virtual void DisplayEvent::handleEvent()	136	static
-../Core/Src/Events.cpp:127:1:DisplayEvent::~DisplayEvent()	16	static
-../Core/Src/Events.cpp:127:1:virtual DisplayEvent::~DisplayEvent()	16	static
-../Core/Src/Events.cpp:130:1:TestEventLED::TestEventLED(TIM_HandleTypeDef&, LED)	24	static
-../Core/Src/Events.cpp:148:6:virtual void TestEventLED::handleEvent()	32	static
-../Core/Src/Events.cpp:166:1:TestEventLED::~TestEventLED()	16	static
-../Core/Src/Events.cpp:166:1:virtual TestEventLED::~TestEventLED()	16	static
-../Core/Src/Events.cpp:169:6:virtual void StartMeasureEvent::handleEvent()	16	static
-../Core/Src/Events.cpp:170:1:StartMeasureEvent::~StartMeasureEvent()	16	static
-../Core/Src/Events.cpp:170:1:virtual StartMeasureEvent::~StartMeasureEvent()	16	static
-../Core/Src/Events.cpp:184:6:virtual void CalculationEvent::handleEvent()	24	static
-../Core/Src/Events.cpp:194:1:CalculationEvent::~CalculationEvent()	16	static
-../Core/Src/Events.cpp:194:1:virtual CalculationEvent::~CalculationEvent()	16	static
-../Core/Src/Events.cpp:197:6:virtual void FinalCalculationEvent::handleEvent()	16	static
-../Core/Src/Events.cpp:198:1:FinalCalculationEvent::~FinalCalculationEvent()	16	static
-../Core/Src/Events.cpp:198:1:virtual FinalCalculationEvent::~FinalCalculationEvent()	16	static
-../Core/Src/Events.cpp:198:50:void __static_initialization_and_destruction_0(int, int)	16	static
-../Core/Src/Events.cpp:198:50:cpp)	8	static
-../Core/Src/Events.cpp:198:50:cpp)	8	static
+../Core/Src/Events.cpp:78:1:DisplayEvent::DisplayEvent(LCD_HandleTypeDef&, std::string)	24	static
+../Core/Src/Events.cpp:95:6:virtual void DisplayEvent::handleEvent()	136	static
+../Core/Src/Events.cpp:124:1:DisplayEvent::~DisplayEvent()	16	static
+../Core/Src/Events.cpp:124:1:virtual DisplayEvent::~DisplayEvent()	16	static
+../Core/Src/Events.cpp:127:1:TestEventLED::TestEventLED(TIM_HandleTypeDef&, LED)	24	static
+../Core/Src/Events.cpp:145:6:virtual void TestEventLED::handleEvent()	32	static
+../Core/Src/Events.cpp:163:1:TestEventLED::~TestEventLED()	16	static
+../Core/Src/Events.cpp:163:1:virtual TestEventLED::~TestEventLED()	16	static
+../Core/Src/Events.cpp:166:6:virtual void StartMeasureEvent::handleEvent()	16	static
+../Core/Src/Events.cpp:167:1:StartMeasureEvent::~StartMeasureEvent()	16	static
+../Core/Src/Events.cpp:167:1:virtual StartMeasureEvent::~StartMeasureEvent()	16	static
+../Core/Src/Events.cpp:179:6:virtual void CalculationEvent::handleEvent()	24	static
+../Core/Src/Events.cpp:189:1:CalculationEvent::~CalculationEvent()	16	static
+../Core/Src/Events.cpp:189:1:virtual CalculationEvent::~CalculationEvent()	16	static
+../Core/Src/Events.cpp:192:6:virtual void FinalCalculationEvent::handleEvent()	16	static
+../Core/Src/Events.cpp:193:1:FinalCalculationEvent::~FinalCalculationEvent()	16	static
+../Core/Src/Events.cpp:193:1:virtual FinalCalculationEvent::~FinalCalculationEvent()	16	static
+../Core/Src/Events.cpp:193:50:void __static_initialization_and_destruction_0(int, int)	16	static
+../Core/Src/Events.cpp:193:50:cpp)	8	static
+../Core/Src/Events.cpp:193:50:cpp)	8	static

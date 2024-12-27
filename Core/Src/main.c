@@ -1,10 +1,8 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file           : main.cpp
+  * @file           : main.c
   * @brief          : Main program body
-  * @mainpage
-  * Autoren des Projekts: MB, CD, B
   ******************************************************************************
   * @attention
   *
@@ -17,28 +15,16 @@
   *
   ******************************************************************************
   */
-
-// Add a new state for reading the results
-// Implement everything with event classes
-
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+
 #include "main.h"
 #include "string.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include <string>
-#include <queue>
-#include <stdio.h>
-#include <memory>
-#include "Events.h"
-#include "Enums.h"
-extern "C"
-{
-	#include "lcd/lcd.h"
-}
+#include "my_main.h"
 
 /* USER CODE END Includes */
 
@@ -49,10 +35,6 @@ extern "C"
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
-#define GPIO_PIN_BUTTON GPIO_PIN_13
-#define DEBOUNCE_THRESHOLD 20 // ms
-
 
 /* USER CODE END PD */
 
@@ -69,10 +51,10 @@ ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptor
 
 ETH_HandleTypeDef heth;
 
+I2C_HandleTypeDef hi2c2;
+
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
-
-I2C_HandleTypeDef hi2c2;
 
 UART_HandleTypeDef huart3;
 
@@ -80,15 +62,6 @@ PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
 /* USER CODE BEGIN PV */
 
-LCD_HandleTypeDef lcd;
-
-volatile State currentState = IDLE;
-volatile uint32_t currentTime;
-volatile uint32_t lastButtonPressTime;
-volatile uint8_t buttonPressed = 0; // UPDATE
-
-//! Hier wird ein Objekt event_queue erstellt
-std::queue<std::unique_ptr<Event>> event_queue;
 
 /* USER CODE END PV */
 
@@ -101,7 +74,6 @@ static void MX_USB_OTG_FS_PCD_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
-
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -109,98 +81,28 @@ static void MX_TIM4_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-/**
- * @brief Löscht alle Elemente aus der Warteschlange.
- */
-void clearQueue()
-{
-  while (!event_queue.empty()){event_queue.pop();}
-}
-
 
 /**
  * @brief Interrupt fürs Blinken
- * @details
- * - Beim pwmValue = 255 -> LED wird ausgeschaltet
- * - Beim pwmValue = 0 -> LED wird angeschaltet
- *
  * @param htim
  */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  if (htim == &htim3)
-  {
-	uint32_t pwmValue = __HAL_TIM_GET_COMPARE(&htim4, TIM_CHANNEL_3);
-	if (pwmValue == 255){pwmValue = 0;}
-	else if (pwmValue == 0){pwmValue = 255;}
-	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, pwmValue);
-  }
+	HAL_TIM_PeriodElapsedCallback_(htim);
 }
 
 
 /**
- * @brief HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) ist ein interrupt, welcher den Operierenden Betrieb enthält.
- *
- * @details Somit wird alles was beim operieren ausgelößt werden soll, hier aufgerufen
- *
- * Ebenfalls gibt es ein printf mit einem float um die convertierung von c zu cpp zu überprüfen.
- *
- * @details Nachdem das Operieren beendet wurde, werden die Resultate angezeigt und danach wird die Queue berreinigt.
- *
- * @param lastButtonPressTime enthält die Zeit, zu welcher der Button das letzte mal gedrückt wurde.
- * @param currentTime enthält die aktuelle Zeit
- * @param GPIO_Pin enhält den Zustand des blauen Knopfes und wechselt in den operierenden Status, wenn gedrückt.
+ * @brief Interrupt, welcher den Operierenden Betrieb enthält
+ * @param GPIO_Pin
  */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  //! Hier ist die printf Funktion zum Überprüfen der Konvertierung
-  printf("%f", 1.2345);
-  if (GPIO_Pin == GPIO_PIN_BUTTON)
-  {
-    currentTime = HAL_GetTick();
-    if (currentTime - lastButtonPressTime > DEBOUNCE_THRESHOLD)
-    {
-      if (currentState == IDLE)
-      {
-        currentState = OPERATING;
-        event_queue.push(std::make_unique<TestEventLED>(htim4, BLINKING));
-        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Calculating the time constant..."));
-        event_queue.push(std::make_unique<StartMeasureEvent>());
-        event_queue.push(std::make_unique<CalculationEvent>());
-        event_queue.push(std::make_unique<FinalCalculationEvent>());
-        event_queue.push(std::make_unique<TestEventLED>(htim4, BLUE));
-        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Results:"));
-        event_queue.push(std::make_unique<ShowResultsEvent>());
-        event_queue.push(std::make_unique<StartEvent>());
-        event_queue.push(std::make_unique<TestEventLED>(htim4, GREEN));
-        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Press the button to start."));
-      }
-      else if (currentState == OPERATING || currentState == SHOW_RESULTS)
-      {
-        buttonPressed = 1; // UPDATE: wird aktualisiert, wenn der Knopf gedrückt wird
-        currentState = CLEANING_UP;
-        clearQueue();
-        event_queue.push(std::make_unique<TestEventLED>(htim4, RED));
-        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Operation is aborted."));
-        event_queue.push(std::make_unique<CancelEvent>());
-        event_queue.push(std::make_unique<StartEvent>());
-        event_queue.push(std::make_unique<TestEventLED>(htim4, GREEN));
-        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Press the button to start."));
-      }
-      lastButtonPressTime = currentTime;
-    }
-  }
+  HAL_GPIO_EXTI_Callback_(GPIO_Pin);
 }
 
 /* USER CODE END 0 */
 
-/**
-  * @brief  The application entry point.
-  *  Hier ist das Projekt festgehalten. Zusätzlich werden hier die Interrups aufgerufen und das
-  *  Programm an sich ausgeführt. Hier erfolgt ebenfalls die abfolge mit dem drücken des Buttons,
-  *  welcher ein Event auslöst und so die Mesung startet
-  * @retval int
-  */
 int main(void)
 {
 
@@ -232,82 +134,19 @@ int main(void)
   MX_I2C2_Init();
   MX_TIM3_Init();
   MX_TIM4_Init();
-
   /* USER CODE BEGIN 2 */
-
-/**
- * @defgroup Initalisierung_des_Displays
- * @brief Initialisiert die Hardwarekomponenten und das Event-System.
- *
- * @details Dieser Abschnitt des Codes richtet die LCD-Anzeige, die PWM-Kanäle und die
- * Ereigniswarteschlange ein. Er stellt sicher, dass die Hardware bereit ist und das
- * System in einen definierten Ausgangszustand versetzt wird.
- * Die Ereignisse in der Warteschlange starten anschließend die Anwendung.
- *
- * @{
- */
-
-	 /**
-	 * @ingroup Initialization
-	 * @brief Initialisiert LCD, PWM und Ereigniswarteschlange.
-	 *
-	 * @details
-	 * - Das LCD-Modul wird über I2C mit Standardadresse konfiguriert und eingeschaltet.
-	 *   Anschließend wird das Display gelöscht, um mit einer sauberen Anzeige zu starten.
-	 * - PWM-Signale auf drei Kanälen des Timers werden aktiviert.
-	 * - Drei Initialereignisse werden in die Ereigniswarteschlange eingefügt:
-	 *   1. StartEvent: Startet das System.
-	 *   2. TestEventLED: Testet eine LED mit einer bestimmten Farbe.
-	 *   3. DisplayEvent: Zeigt eine Statusnachricht auf dem LCD an.
-	 */
-  lcd.i2c = &hi2c2;
-  lcd.i2c_addr = LCD_DEFAULT_ADDR; // 0x27 << 1
-  lcd.backlight_enable = true;
-  LCD_Begin(&lcd);
-  LCD_Clear(&lcd);
-
-  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
-  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_4);
-
-  event_queue.push(std::make_unique<StartEvent>());
-  event_queue.push(std::make_unique<TestEventLED>(htim4, GREEN));
-  event_queue.push(std::make_unique<DisplayEvent>(lcd, "Press the button to start."));
-
-  //!@}
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  /**
-   * @defgroup while-Schleife
-   * @brief while-Schleife, welche durch ein interrupt unterbrochen wird
-   *
-   * @details
-   * -Wenn die event_queue nicht leer ist, dann bewegt sich das Objekt nach vorne und wird
-   * abgearbeitet (Also gepopt)
-   * -Danach kommt es zu einer Verzögerung
-   *@{
-   */
-  while (1)
-  {
-	if(!event_queue.empty())
-	{
-	  std::unique_ptr<Event> e = std::move(event_queue.front());
 
-	  event_queue.pop();
+  my_main();
 
-	  e->handleEvent();
-    }
-//	HAL_Delay(500); UPDATE: momentan nicht nötig
-
-
-/** @} *///Ende des Abschnitt der while-Schleife
-    /* USER CODE END WHILE */
+  /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+
   /* USER CODE END 3 */
 }
 
@@ -347,7 +186,7 @@ void SystemClock_Config(void)
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV8;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
@@ -412,9 +251,13 @@ static void MX_ETH_Init(void)
   */
 static void MX_I2C2_Init(void)
 {
+
   /* USER CODE BEGIN I2C2_Init 0 */
+
   /* USER CODE END I2C2_Init 0 */
+
   /* USER CODE BEGIN I2C2_Init 1 */
+
   /* USER CODE END I2C2_Init 1 */
   hi2c2.Instance = I2C2;
   hi2c2.Init.ClockSpeed = 100000;
@@ -429,12 +272,14 @@ static void MX_I2C2_Init(void)
   {
     Error_Handler();
   }
+
   /** Configure Analogue filter
   */
   if (HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
   {
     Error_Handler();
   }
+
   /** Configure Digital filter
   */
   if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
@@ -442,7 +287,9 @@ static void MX_I2C2_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN I2C2_Init 2 */
+
   /* USER CODE END I2C2_Init 2 */
+
 }
 
 /**
@@ -452,11 +299,16 @@ static void MX_I2C2_Init(void)
   */
 static void MX_TIM3_Init(void)
 {
+
   /* USER CODE BEGIN TIM3_Init 0 */
+
   /* USER CODE END TIM3_Init 0 */
+
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
+
   /* USER CODE BEGIN TIM3_Init 1 */
+
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 41999;
@@ -482,8 +334,8 @@ static void MX_TIM3_Init(void)
   /* USER CODE BEGIN TIM3_Init 2 */
 
   /* USER CODE END TIM3_Init 2 */
-}
 
+}
 
 /**
   * @brief TIM4 Initialization Function
