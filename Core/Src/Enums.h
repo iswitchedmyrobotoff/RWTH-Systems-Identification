@@ -4,6 +4,8 @@
 typedef enum
 {
   IDLE,
+  CAPACITOR,
+  READY,
   OPERATING,
   SHOW_RESULTS,
   CLEANING_UP

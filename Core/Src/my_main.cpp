@@ -18,15 +18,21 @@ extern TIM_HandleTypeDef htim3;
 extern TIM_HandleTypeDef htim4;
 extern I2C_HandleTypeDef hi2c2;
 
-#define GPIO_PIN_BUTTON GPIO_PIN_13
-#define DEBOUNCE_THRESHOLD 20 // ms
+#define GPIO_PIN_USER_BUTTON GPIO_PIN_13
+#define GPIO_PIN_BLACK_BUTTON GPIO_PIN_9
+#define GPIO_PIN_BLUE_BUTTON GPIO_PIN_11
+#define DEBOUNCE_THRESHOLD 300 // ms
 
 LCD_HandleTypeDef lcd;
 
 volatile State currentState = IDLE;
 volatile uint32_t currentTime;
 volatile uint32_t lastButtonPressTime;
+volatile uint32_t currentTime2;
+volatile uint32_t lastButtonPressTime2;
 volatile uint8_t buttonPressed = 0;
+uint16_t capacity = 10;
+uint16_t blackButtonPressed = 1;
 
 //! Hier wird ein Objekt event_queue erstellt
 std::queue<std::unique_ptr<Event>> event_queue;
@@ -75,27 +81,37 @@ void HAL_TIM_PeriodElapsedCallback_(TIM_HandleTypeDef *htim)
  */
 void HAL_GPIO_EXTI_Callback_(uint16_t GPIO_Pin)
 {
-  if (GPIO_Pin == GPIO_PIN_BUTTON)
+  if (GPIO_Pin == GPIO_PIN_USER_BUTTON)
   {
     currentTime = HAL_GetTick();
     if (currentTime - lastButtonPressTime > DEBOUNCE_THRESHOLD)
     {
       if (currentState == IDLE)
       {
+    	  currentState = CAPACITOR;
+    	  event_queue.push(std::make_unique<TestEventLED>(htim4, BLINKING));
+    	  event_queue.push(std::make_unique<DisplayEvent>(lcd, "Capacity (uF):  {10} 100  1000 "));
+
+      }
+      else if (currentState == READY)
+      {
+        buttonPressed = 1;
         currentState = OPERATING;
-        event_queue.push(std::make_unique<TestEventLED>(htim4, BLINKING));
+        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Chosen capacity: " + std::to_string(capacity) + "uF"));
+        event_queue.push(std::make_unique<WaitEvent>(2000));
         event_queue.push(std::make_unique<DisplayEvent>(lcd, "Calculating the time constant..."));
-        event_queue.push(std::make_unique<StartMeasureEvent>());
         event_queue.push(std::make_unique<CalculationEvent>());
         event_queue.push(std::make_unique<FinalCalculationEvent>());
+        event_queue.push(std::make_unique<WaitEvent>(5000));
         event_queue.push(std::make_unique<TestEventLED>(htim4, BLUE));
         event_queue.push(std::make_unique<DisplayEvent>(lcd, "Results:"));
         event_queue.push(std::make_unique<ShowResultsEvent>());
+        event_queue.push(std::make_unique<WaitEvent>(5000));
         event_queue.push(std::make_unique<StartEvent>());
         event_queue.push(std::make_unique<TestEventLED>(htim4, GREEN));
         event_queue.push(std::make_unique<DisplayEvent>(lcd, "Press the button to start."));
       }
-      else if (currentState == OPERATING || currentState == SHOW_RESULTS)
+      else if (currentState == OPERATING || currentState == SHOW_RESULTS || currentState == CAPACITOR)
       {
         buttonPressed = 1;
         currentState = CLEANING_UP;
@@ -103,12 +119,63 @@ void HAL_GPIO_EXTI_Callback_(uint16_t GPIO_Pin)
         event_queue.push(std::make_unique<TestEventLED>(htim4, RED));
         event_queue.push(std::make_unique<DisplayEvent>(lcd, "Operation is aborted."));
         event_queue.push(std::make_unique<CancelEvent>());
+        event_queue.push(std::make_unique<WaitEvent>(5000));
         event_queue.push(std::make_unique<StartEvent>());
         event_queue.push(std::make_unique<TestEventLED>(htim4, GREEN));
         event_queue.push(std::make_unique<DisplayEvent>(lcd, "Press the button to start."));
       }
       lastButtonPressTime = currentTime;
     }
+  }
+  else if (GPIO_Pin == GPIO_PIN_BLACK_BUTTON)
+  {
+	if (currentState == CAPACITOR)
+	{
+	  currentState = READY;
+	  HAL_GPIO_EXTI_Callback(GPIO_PIN_USER_BUTTON);
+
+	}
+
+  }
+
+  else if (GPIO_Pin == GPIO_PIN_BLUE_BUTTON)
+  {
+	currentTime2 = HAL_GetTick();
+	if (currentTime2 - lastButtonPressTime2 > DEBOUNCE_THRESHOLD)
+	{
+	  std::string msg;
+      capacity = 10;
+
+	  if (currentState == CAPACITOR)
+	  {
+	    if (blackButtonPressed == 1)
+	    {
+		  msg = " 10 {100} 1000 ";
+		  // msg = "100uF";
+		  capacity = 100;
+
+		  blackButtonPressed = 2;
+	    }
+	    else if (blackButtonPressed == 2)
+	    {
+		  msg = " 10  100 {1000}";
+		  // msg = "1000uF";
+		  capacity = 1000;
+		  blackButtonPressed = 3;
+	    }
+	    else if (blackButtonPressed == 3)
+	    {
+		  msg = "{10} 100  1000 ";
+		  // msg = "10uF";
+		  capacity = 10;
+		  blackButtonPressed = 1;
+	    }
+	    event_queue.push(std::make_unique<DisplayEvent>(lcd, "Capacity (uF):  " + msg));
+	  }
+	  lastButtonPressTime2 = currentTime2;
+	}
+
+
   }
 }
 

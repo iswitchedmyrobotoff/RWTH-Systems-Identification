@@ -71,12 +71,12 @@ public:
 };
 
 
-class StartMeasureEvent: public Event
-{
-public:
-  void handleEvent() override;
-  ~StartMeasureEvent();
-};
+//class ChooseCapacityEvent: public Event
+//{
+//public:
+//  void handleEvent() override;
+//  ~ChooseCapacityEvent();
+//};
 
 
 class CalculationEvent: public Event
@@ -92,6 +92,16 @@ class FinalCalculationEvent: public Event
 public:
   void handleEvent() override;
   ~FinalCalculationEvent();
+};
+
+class WaitEvent: public Event
+{
+private:
+  int p_dWaitTime = 0;
+public:
+  WaitEvent(int waitTime);
+  void handleEvent() override;
+  ~WaitEvent();
 };
 
 #endif

@@ -10,8 +10,10 @@ extern "C"
   #include "lcd/lcd.h"
 }
 extern TIM_HandleTypeDef htim3;
+//extern LCD_HandleTypeDef lcd;
 extern volatile State currentState;
 extern volatile uint8_t buttonPressed;
+//extern uint16_t capacity;
 
 
 void Event::handleEvent(){}
@@ -29,47 +31,23 @@ StartEvent::~StartEvent() {}
 
 
 /**
- * @brief Zeigt Ergebnisse an und wartet auf Benutzereingabe zum Fortfahren.
+ * @brief Zeigt Ergebnisse an.
  *
- * Setzt den aktuellen Zustand auf `SHOW_RESULTS` und blockiert für maximal 2500 ms,
- * während auf eine Benutzereingabe gewartet wird. Die Schleife wird abgebrochen,
- * sobald die Variable `buttonPressed` auf `1` gesetzt wird.
+ * Setzt den aktuellen Zustand auf `SHOW_RESULTS`.
  *
- * @note Die Methode dient dazu, eine Pause einzulegen, bis der Benutzer interagiert.
  */
 void ShowResultsEvent::handleEvent()
 {
   currentState = SHOW_RESULTS;
-  buttonPressed = 0;
-  for (int i = 0; i < 2500; i++)
-  {
-      if (buttonPressed)
-      {
-              return;
-      }
-      HAL_Delay(1);
-  }
 }
 
 ShowResultsEvent::~ShowResultsEvent(){}
 
 
-/**
- * @brief
- * Führt einen Verzögerungsvorgang aus.
- *
- * Diese Methode blockiert für eine definierte Dauer (2500 ms) durch eine Schleife
- * mit kurzen Verzögerungen. Sie dient dazu, eine Unterbrechung oder Wartezeit
- * zwischen Aktionen zu simulieren.
- *
- * @note Die Methode verwendet HAL_Delay() für die Verzögerung.
- */
+
 void CancelEvent::handleEvent()
 {
-  for (int i = 0; i < 2500; i++)
-  {
-    HAL_Delay(1);
-  }
+
 }
 
 CancelEvent::~CancelEvent() {}
@@ -163,27 +141,64 @@ void TestEventLED::handleEvent()
 TestEventLED::~TestEventLED() {}
 
 
-void StartMeasureEvent::handleEvent(){}
-StartMeasureEvent::~StartMeasureEvent() {}
+//void ChooseCapacityEvent::handleEvent()
+//{
+//  buttonPressed = 0;
+//  uint16_t blackButtonPressed = 1;
+//  std::string msg;
+//  capacity = 10;
+//
+//  msg = "{10} 100  1000 ";
+//	//  strcpy(capacity, "100uF     ");
+//  LCD_Clear(&lcd);
+//  LCD_SetCursor(&lcd, 0, 0);
+//  LCD_Printf(&lcd, "Capacity (uF): ");
+//  LCD_SetCursor(&lcd, 1, 0);
+//  LCD_Printf(&lcd, msg.c_str());
+//	  while(1)
+//	  {
+//		  if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_9) == GPIO_PIN_RESET)
+//		  {
+//			  if (blackButtonPressed == 1)
+//			  {
+//				msg = " 10 {100} 1000 ";
+//	  //			  strcpy(capacity, "100uF     ");
+//				blackButtonPressed++;
+//				if (buttonPressed){return;}
+//
+//			  }
+//			  else if (blackButtonPressed == 2)
+//			  {
+//				msg = " 10  100 {1000}";
+//	  //			  strcpy(capacity, "1000uF    ");
+//				blackButtonPressed++;
+//				if (buttonPressed){return;}
+//			  }
+//			  else if (blackButtonPressed == 3)
+//			  {
+//				msg = "{10} 100  1000 ";
+//	  //			  strcpy(capacity, "10uF      ");
+//				blackButtonPressed = 1;
+//				if (buttonPressed){return;}
+//			  }
+//		  }
+//		  LCD_SetCursor(&lcd, 1, 0);
+//		  if (buttonPressed){return;}
+//		  LCD_Printf(&lcd, msg.c_str());
+//		  if (buttonPressed){return;}
+//		  for (int i = 0; i < 100; i++)
+//		  {
+//			if (buttonPressed){return;}
+//			HAL_Delay(1);
+//		  }
+//	  }
+//}
+//ChooseCapacityEvent::~ChooseCapacityEvent() {}
 
 
-/**
- * @brief Führt eine Berechnungsverzögerung aus, die durch Benutzereingaben abgebrochen werden kann.
- *
- * Diese Methode blockiert für maximal 2500 ms durch kurze Verzögerungen, kann jedoch
- * vorzeitig beendet werden, wenn die Variable `buttonPressed` auf `1` gesetzt wird.
- * Sie ermöglicht eine Wartezeit, die auf Benutzereingaben reagiert.
- *
- * @note Die Schleife überprüft in regelmäßigen Abständen den Status von `buttonPressed`.
- */
+
 void CalculationEvent::handleEvent()
 {
-  buttonPressed = 0;
-  for (int i = 0; i < 2500; i++)
-  {
-    if (buttonPressed){return;}
-    HAL_Delay(1);
-  }
 }
 
 CalculationEvent::~CalculationEvent(){}
@@ -191,3 +206,32 @@ CalculationEvent::~CalculationEvent(){}
 
 void FinalCalculationEvent::handleEvent() {}
 FinalCalculationEvent::~FinalCalculationEvent() {}
+
+
+// Die Doxygen Kommentare können aktualisiert werden.
+/**
+ * @brief
+ * Führt einen Verzögerungsvorgang aus, die durch Benutzereingaben abgebrochen werden kann.
+ *
+ * Diese Methode blockiert für eine definierte Dauer (p_dWaitTime/2 ms) durch eine Schleife
+ * mit kurzen Verzögerungen, kann jedoch vorzeitig beendet werden, wenn die Variable
+ * `buttonPressed` auf `1` gesetzt wird. Sie ermöglicht eine Wartezeit, die auf
+ * Benutzereingaben reagiert.
+ *
+ * @note Die Methode verwendet HAL_Delay() für die Verzögerung und überprüft in
+ * regelmäßigen Abständen den Status von `buttonPressed`.
+ */
+WaitEvent::WaitEvent(int waitTime): p_dWaitTime(waitTime) {}
+
+
+void WaitEvent::handleEvent()
+{
+  buttonPressed = 0;
+  for (int i = 0; i < p_dWaitTime/2; i++)
+  {
+	if (buttonPressed){return;}
+	HAL_Delay(1);
+  }
+}
+
+WaitEvent::~WaitEvent(){}
