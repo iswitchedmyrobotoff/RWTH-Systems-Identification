@@ -48,11 +48,12 @@ public:
 class DisplayEvent: public Event
 {
 private:
-  LCD_HandleTypeDef p_lLcd;
+  LCD_HandleTypeDef& p_lLcd;
   std::string p_sText = "";
+  int p_iCutPosition;
 
 public:
-  DisplayEvent(LCD_HandleTypeDef& lcd, std::string text);
+  DisplayEvent(LCD_HandleTypeDef& lcd, std::string text = "", int cutPosition = 16);
   void handleEvent() override;
   ~DisplayEvent();
 };
@@ -61,7 +62,7 @@ public:
 class TestEventLED: public Event
 {
 private:
-  TIM_HandleTypeDef p_tHtim;
+  TIM_HandleTypeDef& p_tHtim;
   LED p_lLED;
 
 public:
@@ -79,6 +80,18 @@ public:
 //};
 
 
+class MeasurementEvent: public Event
+{
+private:
+  TIM_HandleTypeDef& p_tHtim;
+  ADC_HandleTypeDef& p_aHadc;
+public:
+  MeasurementEvent(TIM_HandleTypeDef& htim, ADC_HandleTypeDef& hadc);
+  void handleEvent() override;
+  ~MeasurementEvent();
+};
+
+
 class CalculationEvent: public Event
 {
 public:
@@ -86,13 +99,13 @@ public:
   ~CalculationEvent();
 };
 
-
-class FinalCalculationEvent: public Event
+class ComparisonEvent: public Event
 {
 public:
   void handleEvent() override;
-  ~FinalCalculationEvent();
+  ~ComparisonEvent();
 };
+
 
 class WaitEvent: public Event
 {
