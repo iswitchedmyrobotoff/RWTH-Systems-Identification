@@ -5,7 +5,6 @@ typedef enum
 {
   IDLE,
   ASK_CAPACITOR,
-//  ASK_MEASUREMENTS,
   ASK_RESISTANCE,
   READY,
   OPERATING,

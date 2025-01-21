@@ -17,25 +17,27 @@ const double ADC_MAX_VALUE = 4095;
 const double ADC_MIN_VALUE = 0;
 
 extern TIM_HandleTypeDef htim3;
-
 extern volatile State currentState;
 extern volatile uint8_t buttonPressed;
-extern double timeConstant;
-extern double timeConstantCalc;
-extern double deviation ;
+extern uint16_t blueButtonPressed;
+extern uint16_t resUnknown;
+extern volatile double capacity;
+extern volatile double resistance;
+double timeConstant;
+double timeConstantCalc;
+double deviation;
 volatile double result1;
 volatile double result2;
 volatile double result3;
-volatile double averageResults1 = 0;
-volatile double averageResults2 = 0;
-volatile double averageResults3 = 0;
-volatile double sample = 0;
-extern volatile double capacity;
-extern volatile double resistance;
+volatile double averageResults1;
+volatile double averageResults2;
+volatile double averageResults3;
+volatile double sample;
 volatile double currentVolt = 0;
 volatile double counter = 0;
-extern uint16_t numberMeasurements; // each measurements consists of discharging and charging measurements
-extern double potUsed;
+uint16_t numberMeasurements = 2; // each measurements consists of discharging and charging measurements
+extern uint32_t numPeriods;
+
 
 
 void Event::handleEvent(){}
@@ -48,7 +50,11 @@ void StartEvent::handleEvent()
 {
   currentState = IDLE;
   buttonPressed = 0;
+  blueButtonPressed = 1;
+  resUnknown = 0;
   timeConstant = 0;
+  timeConstantCalc = 0;
+  deviation = 0;
   result1 = 0;
   result2 = 0;
   result3 = 0;
@@ -57,8 +63,12 @@ void StartEvent::handleEvent()
   averageResults3 = 0;
   sample = 0;
   capacity = 10;
+  resistance = 1;
   currentVolt = 0;
   counter = 0;
+  numberMeasurements = 2;
+  __HAL_TIM_SET_COUNTER(&htim3, 0);
+  numPeriods = 0;
 }
 
 StartEvent::~StartEvent() {}
@@ -83,7 +93,11 @@ ShowResultsEvent::~ShowResultsEvent(){}
 void CancelEvent::handleEvent()
 {
   buttonPressed = 0;
+  blueButtonPressed = 1;
+  resUnknown = 0;
   timeConstant = 0;
+  timeConstantCalc = 0;
+  deviation = 0;
   result1 = 0;
   result2 = 0;
   result3 = 0;
@@ -92,16 +106,49 @@ void CancelEvent::handleEvent()
   averageResults3 = 0;
   sample = 0;
   capacity = 10;
+  resistance = 1;
   currentVolt = 0;
   counter = 0;
+  numberMeasurements = 2;
+  __HAL_TIM_SET_COUNTER(&htim3, 0);
+  numPeriods = 0;
 }
 
 CancelEvent::~CancelEvent() {}
 
 
-DisplayEvent::DisplayEvent(LCD_HandleTypeDef& lcd, std::string text, int cutPosition): p_lLcd(lcd)
-, p_sText(text), p_iCutPosition(cutPosition){}
+// Die Doxygen Kommentare können aktualisiert werden.
+/**
+ * @brief
+ * Führt einen Verzögerungsvorgang aus, die durch Benutzereingaben abgebrochen werden kann.
+ *
+ * Diese Methode blockiert für eine definierte Dauer (p_dWaitTime/2 ms) durch eine Schleife
+ * mit kurzen Verzögerungen, kann jedoch vorzeitig beendet werden, wenn die Variable
+ * `buttonPressed` auf `1` gesetzt wird. Sie ermöglicht eine Wartezeit, die auf
+ * Benutzereingaben reagiert.
+ *
+ * @note Die Methode verwendet HAL_Delay() für die Verzögerung und überprüft in
+ * regelmäßigen Abständen den Status von `buttonPressed`.
+ */
+WaitEvent::WaitEvent(int waitTime): p_dWaitTime(waitTime) {}
 
+void WaitEvent::handleEvent()
+{
+  buttonPressed = 0;
+  for (int i = 0; i < p_dWaitTime/2; i++)
+  {
+	if (buttonPressed){return;}
+	HAL_Delay(1);
+  }
+}
+
+WaitEvent::~WaitEvent(){}
+
+
+DisplayEvent::DisplayEvent(LCD_HandleTypeDef& lcd, std::string text1, std::string text2): p_lLcd(lcd)
+, p_sText1(text1), p_sText2(text2){}
+
+// Die Doxygen-Kommentare können aktualisiert werden
 /**
  * @brief DisplayEvent
  *
@@ -119,67 +166,67 @@ DisplayEvent::DisplayEvent(LCD_HandleTypeDef& lcd, std::string text, int cutPosi
  */
 void DisplayEvent::handleEvent()
 {
-
-
-  std::string text1 = "";
-  std::string text2 = "";
   if (currentState == SHOW_RESULTS)
   {
-	std::string texts[6];
 	std::ostringstream oss;
-	oss << std::fixed << std::setprecision(5);
-	oss << timeConstant;
-	texts[0] = "Measured time ";
-	texts[1] = "constant: " + oss.str() + "s";
-	oss.str("");
-	oss << timeConstantCalc;
-	texts[2] = "Calculated time ";
-	texts[3] = "constant: " + oss.str() + "s";
-	oss.str("");
-	oss << deviation * 100;
-	texts[4] = "Deviation: ";
-	texts[5] = oss.str() + " pct";
-	oss.str("");
-
-	for (int i = 0; i < 3; i++)
+	oss << std::setprecision(5);
+	if (!resUnknown)
 	{
+	  std::string texts[6];
+	  oss << timeConstant;
+	  texts[0] = "Measured time ";
+	  texts[1] = "const: " + oss.str() + "s";
+	  oss.str("");
+	  oss << timeConstantCalc;
+	  texts[2] = "Calculated time ";
+	  texts[3] = "const: " + oss.str() + "s";
+	  oss.str("");
+	  oss << deviation * 100;
+	  texts[4] = "Deviation: ";
+	  texts[5] = oss.str() + " percent";
+	  oss.str("");
+
+	  for (int i = 0; i < 3; i++)
+	  {
+	    LCD_Clear(&p_lLcd);
+	    LCD_SetCursor(&p_lLcd, 0, 0);
+	    LCD_Printf(&p_lLcd, texts[2*i].c_str());
+	    LCD_SetCursor(&p_lLcd, 1, 0);
+	    LCD_Printf(&p_lLcd, texts[2*i+1].c_str());
+	    buttonPressed = 0;
+	    for (int i = 0; i < 4000/2; i++)
+	    {
+	      if (buttonPressed){return;}
+		  HAL_Delay(1);
+		}
+	  }
+	}
+	else
+	{
+	  oss << timeConstant;
+	  p_sText1 = "Measured time ";
+	  p_sText2 = "constant: " + oss.str() + "s";
 	  LCD_Clear(&p_lLcd);
 	  LCD_SetCursor(&p_lLcd, 0, 0);
-	  LCD_Printf(&p_lLcd, texts[2*i].c_str());
+	  LCD_Printf(&p_lLcd, p_sText1.c_str());
 	  LCD_SetCursor(&p_lLcd, 1, 0);
-	  LCD_Printf(&p_lLcd, texts[2*i+1].c_str());
+	  LCD_Printf(&p_lLcd, p_sText2.c_str());
 	  buttonPressed = 0;
-	  for (int i = 0; i < 4000/2; i++)
+	  for (int i = 0; i < 6000/2; i++)
 	  {
-		if (buttonPressed){return;}
-		HAL_Delay(1);
+	    if (buttonPressed){return;}
+	    HAL_Delay(1);
 	  }
 	}
   }
   else
   {
-	if (p_sText.length() <= 16)
-	{
-	  text1 = p_sText;
-	}
-	else
-	{
-	  while (p_iCutPosition > 0 && p_sText[p_iCutPosition] != ' ')
-	  {
-	    --p_iCutPosition;
-	  }
-	  text1 = p_sText.substr(0, p_iCutPosition);
-	  text2 = p_sText.substr(p_iCutPosition + 1);
-	}
 	LCD_Clear(&p_lLcd);
 	LCD_SetCursor(&p_lLcd, 0, 0);
-	LCD_Printf(&p_lLcd, text1.c_str());
+	LCD_Printf(&p_lLcd, p_sText1.c_str());
 	LCD_SetCursor(&p_lLcd, 1, 0);
-	LCD_Printf(&p_lLcd, text2.c_str());
+	LCD_Printf(&p_lLcd, p_sText2.c_str());
   }
-
-
-
 }
 
 DisplayEvent::~DisplayEvent() {}
@@ -223,60 +270,29 @@ void TestEventLED::handleEvent()
 
 TestEventLED::~TestEventLED() {}
 
-//extern LCD_HandleTypeDef lcd;
-//void ChooseCapacityEvent::handleEvent()
-//{
-//  buttonPressed = 0;
-//  uint16_t blackButtonPressed = 1;
-//  std::string msg;
-//  capacity = 10;
-//
-//  msg = "{10} 100  1000 ";
-//	//  strcpy(capacity, "100uF     ");
-//  LCD_Clear(&lcd);
-//  LCD_SetCursor(&lcd, 0, 0);
-//  LCD_Printf(&lcd, "Capacity (uF): ");
-//  LCD_SetCursor(&lcd, 1, 0);
-//  LCD_Printf(&lcd, msg.c_str());
-//	  while(1)
-//	  {
-//		  if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_9) == GPIO_PIN_RESET)
-//		  {
-//			  if (blackButtonPressed == 1)
-//			  {
-//				msg = " 10 {100} 1000 ";
-//	  //			  strcpy(capacity, "100uF     ");
-//				blackButtonPressed++;
-//				if (buttonPressed){return;}
-//
-//			  }
-//			  else if (blackButtonPressed == 2)
-//			  {
-//				msg = " 10  100 {1000}";
-//	  //			  strcpy(capacity, "1000uF    ");
-//				blackButtonPressed++;
-//				if (buttonPressed){return;}
-//			  }
-//			  else if (blackButtonPressed == 3)
-//			  {
-//				msg = "{10} 100  1000 ";
-//	  //			  strcpy(capacity, "10uF      ");
-//				blackButtonPressed = 1;
-//				if (buttonPressed){return;}
-//			  }
-//		  }
-//		  LCD_SetCursor(&lcd, 1, 0);
-//		  if (buttonPressed){return;}
-//		  LCD_Printf(&lcd, msg.c_str());
-//		  if (buttonPressed){return;}
-//		  for (int i = 0; i < 100; i++)
-//		  {
-//			if (buttonPressed){return;}
-//			HAL_Delay(1);
-//		  }
-//	  }
-//}
-//ChooseCapacityEvent::~ChooseCapacityEvent() {}
+
+// 1 measurement takes 10.tau
+// 40s = maximum time for the operation (if 1 measurement takes less than 40)
+// 1 measurement takes 5.5*tau
+// 33s = maximum time for an operation
+void CalculationEvent::handleEvent()
+{
+  if (!resUnknown)
+  {
+	timeConstantCalc = resistance * capacity / 1000; // in s
+	numberMeasurements = 6 / timeConstantCalc;
+	if (numberMeasurements < 1)
+	{
+	  numberMeasurements = 1;
+	}
+	else if (numberMeasurements > 20)
+	{
+	  numberMeasurements = 20;
+	}
+  }
+}
+CalculationEvent::~CalculationEvent() {}
+
 
 // result1 = the average of the samples. Each sample is the result of the calculation with ln for every
 // time value obtained during the while-loop
@@ -285,8 +301,8 @@ TestEventLED::~TestEventLED() {}
 MeasurementEvent::MeasurementEvent(TIM_HandleTypeDef& htim, ADC_HandleTypeDef& hadc): p_tHtim(htim), p_aHadc(hadc) {}
 void MeasurementEvent::handleEvent()
 {
-  double maxVolt = 3.25; // !! change 40
-  double minVolt = 0.0; // !! change 40
+  double maxVolt = 3.25;
+  double minVolt = 0.0;
 
   volatile double argument = 0; // argument for the ln calculation for result1
   const double epsilon = 1e-6;
@@ -306,6 +322,7 @@ void MeasurementEvent::handleEvent()
 	// reset the counter at the start of each measurement (before charging measurements)
 	__HAL_TIM_SET_COUNTER(&p_tHtim, 0);
 	timerSampled = 0; // (result2)
+
 	// start the timer
 	HAL_TIM_Base_Start(&p_tHtim);
 	// turn on the voltage source
@@ -344,9 +361,9 @@ void MeasurementEvent::handleEvent()
 		HAL_Delay(1);
 	  }
 	}
-
 	// stop the timer when charging is completed
 	HAL_TIM_Base_Stop(&p_tHtim);
+
 	// find the average of the samples from the measurements and add it to the array (result1)
 	for (double samp: samples)
 	{
@@ -354,6 +371,7 @@ void MeasurementEvent::handleEvent()
 	}
 	averageSamples = sumSamples/(samples.size());
 	result1 = averageSamples;
+	// check if the value is valid before adding
 	if (!std::isnan(result1))
 	{
 	  results[0][2*i] = const_cast<double&>(result1);
@@ -370,14 +388,12 @@ void MeasurementEvent::handleEvent()
 	result3 = ((double)__HAL_TIM_GET_COUNTER(&p_tHtim)/5) / 1000;
 	results[2][2*i] = const_cast<double&>(result3);
 
-
 	// reset the counter at the start of each measurement (before discharging measurements)
 	__HAL_TIM_SET_COUNTER(&p_tHtim, 0);
 	timerSampled = 0;
 
-	// start the timer (to be stopped when the capacitor is 36.8% charged (63.2% discharged))
+	// start the timer
 	HAL_TIM_Base_Start(&p_tHtim);
-
 	// turn off the voltage source
 	HAL_GPIO_WritePin(GPIOF, GPIO_PIN_13, GPIO_PIN_RESET);
 	// discharge the capacitor fully
@@ -391,7 +407,7 @@ void MeasurementEvent::handleEvent()
 	  }
 	  HAL_ADC_Stop(&p_aHadc);
 
-
+	  // calculate the time constant from the formula and add it to the vector (result1)
 	  argument = currentVolt / maxVolt;
 	  if (argument > epsilon)
 	  {
@@ -399,14 +415,11 @@ void MeasurementEvent::handleEvent()
 		samples.push_back(const_cast<double&>(sample));
 	  }
 
-
-	  // sample the time when the capacitor is 36.8% charged (63.2% discharged)
+	  // sample the time when the capacitor is 36.8% charged and add it to the array (result2)
 	  if ((currentVolt < maxVolt*(36.8*0.01)) & (timerSampled == 0))
 	  {
-		timerSampled = 1;
-		// the measured time constant for discharging
+		timerSampled = 1; // so that it won't get sampled again once it is sampled
 		result2 = (double)__HAL_TIM_GET_COUNTER(&p_tHtim) / 1000;
-		// add the found result to the vector
 		results[1][2*i+1] = const_cast<double&>(result2);
 	  }
 
@@ -417,18 +430,17 @@ void MeasurementEvent::handleEvent()
 		HAL_Delay(1);
 	  }
 	}
-
 	// stop the timer when discharging is completed
 	HAL_TIM_Base_Stop(&p_tHtim);
 
-	// add up the results from the measurements
+	// find the average of the samples from the measurements and add it to the array (result1)
 	for (double samp: samples)
 	{
 	  sumSamples += samp;
 	}
-	// calculate the average
 	averageSamples = sumSamples/(samples.size());
 	result1 = averageSamples;
+	// check if the value is valid before adding
 	if (!std::isnan(result1))
 	{
 	  results[0][2*i+1] = const_cast<double&>(result1);
@@ -437,14 +449,16 @@ void MeasurementEvent::handleEvent()
 	{
 	  results[0][2*i+1] = const_cast<double&>(result2);
 	}
+	// clear the vector and reset the sum for the next measurement (result1)
 	samples.clear();
 	sumSamples = 0;
 
+	// calculate 1/5 of the total time and add it to the array (result3)
 	result3 = ((double)__HAL_TIM_GET_COUNTER(&p_tHtim)/5) / 1000;
 	results[2][2*i+1] = const_cast<double&>(result3);
-
   }
 
+  // calculate the average of the results of each 3 measurements and add them to the array
   for (int i = 0; i < 3; i++)
   {
 	for (int j = 0; j < numberMeasurements*2; j++)
@@ -453,15 +467,16 @@ void MeasurementEvent::handleEvent()
 	}
 	averageResults[i] = sumResults[i]/(numberMeasurements*2);
   }
-
   averageResults1 = averageResults[0];
   averageResults2 = averageResults[1];
   averageResults3 = averageResults[2];
 
-  if (potUsed)
+  // if the resistance is not known, calculate the average of the average values of each 3 measurements
+  if (resUnknown)
   {
     average = (averageResults[0] + averageResults[1] + averageResults[2]) / 3;
   }
+  // if the resistance is known, find the average value that is closest to the RC value of the circuit
   else
   {
 	double diff = 0;
@@ -483,54 +498,203 @@ void MeasurementEvent::handleEvent()
 
 MeasurementEvent::~MeasurementEvent(){}
 
-// 1 measurement takes 10.tau
-// 40s = maximum time for the operation (if 1 measurement takes less than 40)
-void CalculationEvent::handleEvent()
+
+FastMeasurementEvent::FastMeasurementEvent(TIM_HandleTypeDef& htim, ADC_HandleTypeDef& hadc): p_tHtim(htim), p_aHadc(hadc) {}
+void FastMeasurementEvent::handleEvent()
 {
-  timeConstantCalc = resistance * capacity / 1000; // in s
-  numberMeasurements = 4 / timeConstantCalc;
-  if (numberMeasurements < 1)
+  double maxVolt = 3.2;
+  double minVolt = 0.0;
+
+  volatile double argument = 0; // argument for the ln calculation for result1
+  const double epsilon = 1e-6;
+  //  volatile double sample = 0;
+  std::vector<double> samples; // a vector of the samples for result1
+  volatile double sumSamples = 0; // sum of the samples for result1
+  volatile double averageSamples = 0; // average of the samples for result1
+
+  uint16_t timerSampled = 0;
+
+  double results[2][numberMeasurements*2]; // a 2D array to save every result from each iteration
+  double sumResults[2]; // sum of the averages of each result
+  double averageResults[2];
+  double average = 0; // average of the results
+
+  for (int i = 0; i < numberMeasurements; i++)
   {
-	numberMeasurements = 1;
-  }
-  else if (numberMeasurements > 10)
-  {
-	  numberMeasurements = 10;
+	// reset the counter at the start of each measurement (before charging measurements)
+	__HAL_TIM_SET_COUNTER(&p_tHtim, 0);
+	timerSampled = 0;
+	HAL_TIM_Base_Start(&p_tHtim);
+	// turn on the voltage source
+	HAL_GPIO_WritePin(GPIOF, GPIO_PIN_13, GPIO_PIN_SET);
+	// charge the capacitor till one tau is complete
+	while(currentVolt < maxVolt*(63.2*0.01))
+	{
+	  counter = (double)__HAL_TIM_GET_COUNTER(&p_tHtim) / 1000; // in s
+	  HAL_ADC_Start(&p_aHadc);
+	  if (HAL_ADC_PollForConversion(&p_aHadc, HAL_MAX_DELAY) == HAL_OK)
+	  {
+		currentVolt = 3.3 * (HAL_ADC_GetValue(&p_aHadc) / ADC_MAX_VALUE);
+	  }
+	  HAL_ADC_Stop(&p_aHadc);
+
+//	  // calculate the time constant from the formula and add it to the vector (result1)
+//	  argument = 1.0 - currentVolt / maxVolt;
+//	  if (argument > epsilon)
+//	  {
+//		sample = (-1.0)* counter / log(argument);
+//		samples.push_back(const_cast<double&>(sample));
+//	  }
+
+	  // wait for 40 ms between iterations for more accuracy
+	  for (int i = 0; i < 20; i++)
+	  {
+		if (buttonPressed){return;}
+		HAL_Delay(1);
+	  }
+	}
+	// stop the timer when the capacitor is 63.2% charged
+	HAL_TIM_Base_Stop(&p_tHtim);
+    // sample the time and add it to the array (result2)
+    result2 = (double)__HAL_TIM_GET_COUNTER(&p_tHtim) / 1000;
+    results[1][2*i] = const_cast<double&>(result2);
+//
+//	// find the average of the samples from the measurements and add it to the array (result1)
+//	for (double samp: samples)
+//	{
+//	  sumSamples += samp;
+//	}
+//	averageSamples = sumSamples/(samples.size());
+//	result1 = averageSamples;
+//	// check if the value is valid before adding
+//	if (!std::isnan(result1))
+//	{
+//	  results[0][2*i] = const_cast<double&>(result1);
+//	}
+//	else
+//	{
+//	  results[0][2*i] = const_cast<double&>(result2);
+//	}
+//	// clear the vector and reset the sum for the next measurement (result1)
+//	samples.clear();
+//	sumSamples = 0;
+	// reset the counter at the start of each measurement (before discharging measurements)
+	__HAL_TIM_SET_COUNTER(&p_tHtim, 0);
+	timerSampled = 0;
+	// start the timer (to be stopped when the capacitor is fully discharged)
+	HAL_TIM_Base_Start(&p_tHtim);
+	// turn off the voltage source
+	HAL_GPIO_WritePin(GPIOF, GPIO_PIN_13, GPIO_PIN_RESET);
+	// discharge the capacitor fully
+	while(currentVolt > minVolt+0.03)
+	{
+	  counter = (double)__HAL_TIM_GET_COUNTER(&p_tHtim) / 1000; // in s
+	  HAL_ADC_Start(&p_aHadc);
+	  if (HAL_ADC_PollForConversion(&p_aHadc, HAL_MAX_DELAY) == HAL_OK)
+	  {
+		  currentVolt = 3.3 * (HAL_ADC_GetValue(&p_aHadc) / ADC_MAX_VALUE);
+	  }
+	  HAL_ADC_Stop(&p_aHadc);
+
+	  // calculate the time constant from the formula and add it to the vector (result1)
+	  argument = currentVolt / (maxVolt*(63.2*0.01));
+	  if (argument > epsilon)
+	  {
+		sample = (-1.0)* counter / log(argument);
+		samples.push_back(const_cast<double&>(sample));
+	  }
+
+	  // sample the time when the capacitor is 36.8% charged and add it to the array (result2)
+	  if ((currentVolt < maxVolt*(63.2*0.01)*(36.8*0.01)) & (timerSampled == 0))
+	  {
+		timerSampled = 1; // so that it won't get sampled again once it is sampled
+		result2 = (double)__HAL_TIM_GET_COUNTER(&p_tHtim) / 1000;
+		results[1][2*i+1] = const_cast<double&>(result2);
+	  }
+
+	  // wait for 20 ms between iterations for more accuracy
+	  for (int i = 0; i < 20; i++)
+	  {
+		if (buttonPressed){return;}
+		HAL_Delay(1);
+	  }
+	}
+
+	HAL_TIM_Base_Stop(&p_tHtim);
+	// find the average of the samples from the measurements and add it to the array (result1)
+	for (double samp: samples)
+	{
+	  sumSamples += samp;
+	}
+	averageSamples = sumSamples/(samples.size());
+	result1 = averageSamples;
+	// check if the value is valid before adding
+	if (!std::isnan(result1))
+	{
+	  results[0][i] = const_cast<double&>(result1);
+	}
+	else
+	{
+	  results[0][i] = const_cast<double&>(result2);
+	}
+	// clear the vector and reset the sum for the next measurement (result1)
+	samples.clear();
+	sumSamples = 0;
   }
 
+  // calculate the average of the results of each 3 measurements and add them to the array
+
+	for (int i = 0; i < numberMeasurements; i++)
+	{
+		sumResults[0] += results[0][i];
+	}
+	averageResults[0] = sumResults[0]/(numberMeasurements);
+	for (int i = 0; i < numberMeasurements*2; i++)
+	{
+		sumResults[1] += results[1][i];
+	}
+	averageResults[1] = sumResults[1]/(numberMeasurements*2);
+
+  averageResults1 = averageResults[0];
+  averageResults2 = averageResults[1];
+
+  // if the resistance is not known, calculate the average of the average values of each 3 measurements
+  if (resUnknown)
+  {
+    average = (averageResults[0] + averageResults[1]) / 2;
+  }
+  // if the resistance is known, find the average value that is closest to the RC value of the circuit
+  else
+  {
+	double diff = 0;
+	double minDiff = std::abs(timeConstantCalc - averageResults[0]);
+	average = averageResults[0];
+	for (int i = 1; i < 2; i++)
+	{
+	  diff = std::abs(timeConstantCalc - averageResults[i]);
+	  if (diff < minDiff)
+	  {
+		average = averageResults[i];
+		minDiff = diff;
+	  }
+	}
+  }
+  // the result is equal to the time constant
+  timeConstant = average;
+
 }
-CalculationEvent::~CalculationEvent() {}
+FastMeasurementEvent::~FastMeasurementEvent(){}
 
 
 void ComparisonEvent::handleEvent()
 {
-  deviation = (timeConstant - timeConstantCalc) / timeConstantCalc;
-}
-
-ComparisonEvent::~ComparisonEvent(){}
-// Die Doxygen Kommentare können aktualisiert werden.
-/**
- * @brief
- * Führt einen Verzögerungsvorgang aus, die durch Benutzereingaben abgebrochen werden kann.
- *
- * Diese Methode blockiert für eine definierte Dauer (p_dWaitTime/2 ms) durch eine Schleife
- * mit kurzen Verzögerungen, kann jedoch vorzeitig beendet werden, wenn die Variable
- * `buttonPressed` auf `1` gesetzt wird. Sie ermöglicht eine Wartezeit, die auf
- * Benutzereingaben reagiert.
- *
- * @note Die Methode verwendet HAL_Delay() für die Verzögerung und überprüft in
- * regelmäßigen Abständen den Status von `buttonPressed`.
- */
-WaitEvent::WaitEvent(int waitTime): p_dWaitTime(waitTime) {}
-
-void WaitEvent::handleEvent()
-{
-  buttonPressed = 0;
-  for (int i = 0; i < p_dWaitTime/2; i++)
+  if (!resUnknown)
   {
-	if (buttonPressed){return;}
-	HAL_Delay(1);
+	deviation = (timeConstant - timeConstantCalc) / timeConstantCalc;
   }
 }
 
-WaitEvent::~WaitEvent(){}
+ComparisonEvent::~ComparisonEvent(){}
+
+
+
