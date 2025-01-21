@@ -85,8 +85,8 @@ all: main-build
 main-build: RWTH_Project_IC.elf secondary-outputs
 
 # Tool invocations
-RWTH_Project_IC.elf RWTH_Project_IC.map: $(OBJS) $(USER_OBJS) C:\Users\morit\STM32CubeIDE\workspace_1.16.1\RWTH_Project_IC\STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "RWTH_Project_IC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\morit\STM32CubeIDE\workspace_1.16.1\RWTH_Project_IC\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RWTH_Project_IC.map" -Wl,--gc-sections -static -u _printf_float  -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+RWTH_Project_IC.elf RWTH_Project_IC.map: $(OBJS) $(USER_OBJS) C:\Users\ceyda\RWTH-Systems-Identification\STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "RWTH_Project_IC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\ceyda\RWTH-Systems-Identification\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RWTH_Project_IC.map" -Wl,--gc-sections -static -u _printf_float  -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

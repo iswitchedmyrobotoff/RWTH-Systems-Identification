@@ -1,10 +1,8 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file           : main.cpp
+  * @file           : main.c
   * @brief          : Main program body
-  * @mainpage
-  * Autoren des Projekts: MB, CD, B
   ******************************************************************************
   * @attention
   *
@@ -17,10 +15,6 @@
   *
   ******************************************************************************
   */
-
-// Add a new state for reading the results
-// Implement everything with event classes
-
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -29,16 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include <string>
-#include <queue>
-#include <stdio.h>
-#include <memory>
-#include "Events.h"
-#include "Enums.h"
-extern "C"
-{
-	#include "lcd/lcd.h"
-}
+#include "my_main.h"
 
 /* USER CODE END Includes */
 
@@ -49,10 +34,6 @@ extern "C"
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
-#define GPIO_PIN_BUTTON GPIO_PIN_13
-#define DEBOUNCE_THRESHOLD 20 // ms
-
 
 /* USER CODE END PD */
 
@@ -67,12 +48,16 @@ ETH_TxPacketConfig TxConfig;
 ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
 ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
 
+ADC_HandleTypeDef hadc1;
+ADC_HandleTypeDef hadc2;
+
 ETH_HandleTypeDef heth;
 
+I2C_HandleTypeDef hi2c2;
+
+TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
-
-I2C_HandleTypeDef hi2c2;
 
 UART_HandleTypeDef huart3;
 
@@ -80,15 +65,6 @@ PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
 /* USER CODE BEGIN PV */
 
-LCD_HandleTypeDef lcd;
-
-volatile State currentState = IDLE;
-volatile uint32_t currentTime;
-volatile uint32_t lastButtonPressTime;
-volatile uint8_t buttonPressed = 0; // UPDATE
-
-//! Hier wird ein Objekt event_queue erstellt
-std::queue<std::unique_ptr<Event>> event_queue;
 
 /* USER CODE END PV */
 
@@ -99,9 +75,11 @@ static void MX_ETH_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
 static void MX_I2C2_Init(void);
-static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
-
+static void MX_TIM3_Init(void);
+static void MX_ADC1_Init(void);
+static void MX_ADC2_Init(void);
+static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -109,96 +87,30 @@ static void MX_TIM4_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-/**
- * @brief Löscht alle Elemente aus der Warteschlange.
- */
-void clearQueue()
-{
-  while (!event_queue.empty()){event_queue.pop();}
-}
-
 
 /**
  * @brief Interrupt fürs Blinken
- * @details
- * - Beim pwmValue = 255 -> LED wird ausgeschaltet
- * - Beim pwmValue = 0 -> LED wird angeschaltet
- *
  * @param htim
  */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  if (htim == &htim3)
-  {
-	uint32_t pwmValue = __HAL_TIM_GET_COMPARE(&htim4, TIM_CHANNEL_3);
-	if (pwmValue == 255){pwmValue = 0;}
-	else if (pwmValue == 0){pwmValue = 255;}
-	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, pwmValue);
-  }
+	HAL_TIM_PeriodElapsedCallback_(htim);
 }
 
 
 /**
- * @brief HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) ist ein interrupt, welcher den Operierenden Betrieb enthält.
- *
- * @details Somit wird alles was beim operieren ausgelößt werden soll, hier aufgerufen
- *
- * Ebenfalls gibt es ein printf mit einem float um die convertierung von c zu cpp zu überprüfen.
- *
- * @details Nachdem das Operieren beendet wurde, werden die Resultate angezeigt und danach wird die Queue berreinigt.
- *
- * @param lastButtonPressTime enthält die Zeit, zu welcher der Button das letzte mal gedrückt wurde.
- * @param currentTime enthält die aktuelle Zeit
- * @param GPIO_Pin enhält den Zustand des blauen Knopfes und wechselt in den operierenden Status, wenn gedrückt.
+ * @brief Interrupt, welcher den Operierenden Betrieb enthält
+ * @param GPIO_Pin
  */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  //! Hier ist die printf Funktion zum Überprüfen der Konvertierung
-  printf("%f", 1.2345);
-  if (GPIO_Pin == GPIO_PIN_BUTTON)
-  {
-    currentTime = HAL_GetTick();
-    if (currentTime - lastButtonPressTime > DEBOUNCE_THRESHOLD)
-    {
-      if (currentState == IDLE)
-      {
-        currentState = OPERATING;
-        event_queue.push(std::make_unique<TestEventLED>(htim4, BLINKING));
-        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Calculating the time constant..."));
-        event_queue.push(std::make_unique<StartMeasureEvent>());
-        event_queue.push(std::make_unique<CalculationEvent>());
-        event_queue.push(std::make_unique<FinalCalculationEvent>());
-        event_queue.push(std::make_unique<TestEventLED>(htim4, BLUE));
-        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Results:"));
-        event_queue.push(std::make_unique<ShowResultsEvent>());
-        event_queue.push(std::make_unique<StartEvent>());
-        event_queue.push(std::make_unique<TestEventLED>(htim4, GREEN));
-        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Press the button to start."));
-      }
-      else if (currentState == OPERATING || currentState == SHOW_RESULTS)
-      {
-        buttonPressed = 1; // UPDATE: wird aktualisiert, wenn der Knopf gedrückt wird
-        currentState = CLEANING_UP;
-        clearQueue();
-        event_queue.push(std::make_unique<TestEventLED>(htim4, RED));
-        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Operation is aborted."));
-        event_queue.push(std::make_unique<CancelEvent>());
-        event_queue.push(std::make_unique<StartEvent>());
-        event_queue.push(std::make_unique<TestEventLED>(htim4, GREEN));
-        event_queue.push(std::make_unique<DisplayEvent>(lcd, "Press the button to start."));
-      }
-      lastButtonPressTime = currentTime;
-    }
-  }
+  HAL_GPIO_EXTI_Callback_(GPIO_Pin);
 }
 
 /* USER CODE END 0 */
 
 /**
   * @brief  The application entry point.
-  *  Hier ist das Projekt festgehalten. Zusätzlich werden hier die Interrups aufgerufen und das
-  *  Programm an sich ausgeführt. Hier erfolgt ebenfalls die abfolge mit dem drücken des Buttons,
-  *  welcher ein Event auslöst und so die Mesung startet
   * @retval int
   */
 int main(void)
@@ -230,84 +142,24 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
   MX_I2C2_Init();
-  MX_TIM3_Init();
   MX_TIM4_Init();
-
+  MX_TIM3_Init();
+  MX_ADC1_Init();
+  MX_ADC2_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-
-/**
- * @defgroup Initalisierung_des_Displays
- * @brief Initialisiert die Hardwarekomponenten und das Event-System.
- *
- * @details Dieser Abschnitt des Codes richtet die LCD-Anzeige, die PWM-Kanäle und die
- * Ereigniswarteschlange ein. Er stellt sicher, dass die Hardware bereit ist und das
- * System in einen definierten Ausgangszustand versetzt wird.
- * Die Ereignisse in der Warteschlange starten anschließend die Anwendung.
- *
- * @{
- */
-
-	 /**
-	 * @ingroup Initialization
-	 * @brief Initialisiert LCD, PWM und Ereigniswarteschlange.
-	 *
-	 * @details
-	 * - Das LCD-Modul wird über I2C mit Standardadresse konfiguriert und eingeschaltet.
-	 *   Anschließend wird das Display gelöscht, um mit einer sauberen Anzeige zu starten.
-	 * - PWM-Signale auf drei Kanälen des Timers werden aktiviert.
-	 * - Drei Initialereignisse werden in die Ereigniswarteschlange eingefügt:
-	 *   1. StartEvent: Startet das System.
-	 *   2. TestEventLED: Testet eine LED mit einer bestimmten Farbe.
-	 *   3. DisplayEvent: Zeigt eine Statusnachricht auf dem LCD an.
-	 */
-  lcd.i2c = &hi2c2;
-  lcd.i2c_addr = LCD_DEFAULT_ADDR; // 0x27 << 1
-  lcd.backlight_enable = true;
-  LCD_Begin(&lcd);
-  LCD_Clear(&lcd);
-
-  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
-  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_4);
-
-  event_queue.push(std::make_unique<StartEvent>());
-  event_queue.push(std::make_unique<TestEventLED>(htim4, GREEN));
-  event_queue.push(std::make_unique<DisplayEvent>(lcd, "Press the button to start."));
-
-  //!@}
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  /**
-   * @defgroup while-Schleife
-   * @brief while-Schleife, welche durch ein interrupt unterbrochen wird
-   *
-   * @details
-   * -Wenn die event_queue nicht leer ist, dann bewegt sich das Objekt nach vorne und wird
-   * abgearbeitet (Also gepopt)
-   * -Danach kommt es zu einer Verzögerung
-   *@{
-   */
-  while (1)
-  {
-	if(!event_queue.empty())
-	{
-	  std::unique_ptr<Event> e = std::move(event_queue.front());
 
-	  event_queue.pop();
+  my_main();
 
-	  e->handleEvent();
-    }
-//	HAL_Delay(500); UPDATE: momentan nicht nötig
-
-
-/** @} *///Ende des Abschnitt der while-Schleife
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+
   /* USER CODE END 3 */
 }
 
@@ -348,12 +200,116 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV8;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief ADC1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC1_Init(void)
+{
+
+  /* USER CODE BEGIN ADC1_Init 0 */
+
+  /* USER CODE END ADC1_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC1_Init 1 */
+
+  /* USER CODE END ADC1_Init 1 */
+
+  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
+  */
+  hadc1.Instance = ADC1;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc1.Init.ScanConvMode = DISABLE;
+  hadc1.Init.ContinuousConvMode = DISABLE;
+  hadc1.Init.DiscontinuousConvMode = DISABLE;
+  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc1.Init.NbrOfConversion = 1;
+  hadc1.Init.DMAContinuousRequests = DISABLE;
+  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_3;
+  sConfig.Rank = 1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC1_Init 2 */
+
+  /* USER CODE END ADC1_Init 2 */
+
+}
+
+/**
+  * @brief ADC2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC2_Init(void)
+{
+
+  /* USER CODE BEGIN ADC2_Init 0 */
+
+  /* USER CODE END ADC2_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC2_Init 1 */
+
+  /* USER CODE END ADC2_Init 1 */
+
+  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
+  */
+  hadc2.Instance = ADC2;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc2.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc2.Init.ScanConvMode = DISABLE;
+  hadc2.Init.ContinuousConvMode = DISABLE;
+  hadc2.Init.DiscontinuousConvMode = DISABLE;
+  hadc2.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc2.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc2.Init.NbrOfConversion = 1;
+  hadc2.Init.DMAContinuousRequests = DISABLE;
+  hadc2.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  if (HAL_ADC_Init(&hadc2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_9;
+  sConfig.Rank = 1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC2_Init 2 */
+
+  /* USER CODE END ADC2_Init 2 */
+
 }
 
 /**
@@ -412,9 +368,13 @@ static void MX_ETH_Init(void)
   */
 static void MX_I2C2_Init(void)
 {
+
   /* USER CODE BEGIN I2C2_Init 0 */
+
   /* USER CODE END I2C2_Init 0 */
+
   /* USER CODE BEGIN I2C2_Init 1 */
+
   /* USER CODE END I2C2_Init 1 */
   hi2c2.Instance = I2C2;
   hi2c2.Init.ClockSpeed = 100000;
@@ -429,12 +389,14 @@ static void MX_I2C2_Init(void)
   {
     Error_Handler();
   }
+
   /** Configure Analogue filter
   */
   if (HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
   {
     Error_Handler();
   }
+
   /** Configure Digital filter
   */
   if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
@@ -442,7 +404,55 @@ static void MX_I2C2_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN I2C2_Init 2 */
+
   /* USER CODE END I2C2_Init 2 */
+
+}
+
+/**
+  * @brief TIM1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM1_Init(void)
+{
+
+  /* USER CODE BEGIN TIM1_Init 0 */
+
+  /* USER CODE END TIM1_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM1_Init 1 */
+
+  /* USER CODE END TIM1_Init 1 */
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 41999;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = 65535;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM1_Init 2 */
+
+  /* USER CODE END TIM1_Init 2 */
+
 }
 
 /**
@@ -452,11 +462,16 @@ static void MX_I2C2_Init(void)
   */
 static void MX_TIM3_Init(void)
 {
+
   /* USER CODE BEGIN TIM3_Init 0 */
+
   /* USER CODE END TIM3_Init 0 */
+
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
+
   /* USER CODE BEGIN TIM3_Init 1 */
+
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 41999;
@@ -482,8 +497,8 @@ static void MX_TIM3_Init(void)
   /* USER CODE BEGIN TIM3_Init 2 */
 
   /* USER CODE END TIM3_Init 2 */
-}
 
+}
 
 /**
   * @brief TIM4 Initialization Function
@@ -505,7 +520,7 @@ static void MX_TIM4_Init(void)
 
   /* USER CODE END TIM4_Init 1 */
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 419;
+  htim4.Init.Prescaler = 839;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.Period = 255;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -637,11 +652,15 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOG_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LD1_Pin|LD3_Pin|LD2_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_13, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(USB_PowerSwitchOn_GPIO_Port, USB_PowerSwitchOn_Pin, GPIO_PIN_RESET);
@@ -659,6 +678,19 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : PF13 */
+  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PE9 PE11 */
+  GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_11;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
   /*Configure GPIO pin : USB_PowerSwitchOn_Pin */
   GPIO_InitStruct.Pin = USB_PowerSwitchOn_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -673,6 +705,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(USB_OverCurrent_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
