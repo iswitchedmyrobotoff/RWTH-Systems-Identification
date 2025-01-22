@@ -45,15 +45,26 @@ public:
 };
 
 
+class WaitEvent: public Event
+{
+private:
+  int p_dWaitTime = 0;
+public:
+  WaitEvent(int waitTime);
+  void handleEvent() override;
+  ~WaitEvent();
+};
+
+
 class DisplayEvent: public Event
 {
 private:
   LCD_HandleTypeDef& p_lLcd;
-  std::string p_sText = "";
-  int p_iCutPosition;
+  std::string p_sText1 = "";
+  std::string p_sText2 = "";
 
 public:
-  DisplayEvent(LCD_HandleTypeDef& lcd, std::string text = "", int cutPosition = 16);
+  DisplayEvent(LCD_HandleTypeDef& lcd, std::string text1 = "", std::string text2 = "");
   void handleEvent() override;
   ~DisplayEvent();
 };
@@ -72,12 +83,12 @@ public:
 };
 
 
-//class ChooseCapacityEvent: public Event
-//{
-//public:
-//  void handleEvent() override;
-//  ~ChooseCapacityEvent();
-//};
+class CalculationEvent: public Event
+{
+public:
+  void handleEvent() override;
+  ~CalculationEvent();
+};
 
 
 class MeasurementEvent: public Event
@@ -92,12 +103,17 @@ public:
 };
 
 
-class CalculationEvent: public Event
+class FastMeasurementEvent: public Event
 {
+private:
+  TIM_HandleTypeDef& p_tHtim;
+  ADC_HandleTypeDef& p_aHadc;
 public:
+  FastMeasurementEvent(TIM_HandleTypeDef& htim, ADC_HandleTypeDef& hadc);
   void handleEvent() override;
-  ~CalculationEvent();
+  ~FastMeasurementEvent();
 };
+
 
 class ComparisonEvent: public Event
 {
@@ -106,15 +122,5 @@ public:
   ~ComparisonEvent();
 };
 
-
-class WaitEvent: public Event
-{
-private:
-  int p_dWaitTime = 0;
-public:
-  WaitEvent(int waitTime);
-  void handleEvent() override;
-  ~WaitEvent();
-};
 
 #endif
